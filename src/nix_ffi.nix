@@ -14,7 +14,7 @@ let
 
   # --- arrays ---
   array_fold = arr: init: operator: builtins.foldl' operator init arr;
-  array_fold_right = arr: init: operator: builtins.foldr (elem: acc: operator acc elem) init arr;
+  array_fold_right = arr: init: operator: foldr (elem: acc: operator acc elem) init arr;
   array_get = arr: index: if builtins.length arr > index then Ok (builtins.elemAt arr index) else Error Nil;
   array_map = arr: operator: builtins.map operator arr;
   array_size = builtins.length;
