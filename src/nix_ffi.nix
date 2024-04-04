@@ -26,6 +26,7 @@ let
   array_concat = a: b: a ++ b;
   array_from_list = l: if l ? tail then [l.head] ++ array_from_list l.tail else [];
   array_to_list = toList;
+  array_generate = builtins.genList;
 
   # --- attr sets ---
   attrset_new = {};
@@ -115,6 +116,7 @@ in
       array_concat
       array_from_list
       array_to_list
+      array_generate
       attrset_new
       attrset_get
       attrset_set

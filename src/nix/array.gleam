@@ -51,3 +51,10 @@ pub fn from_list(list: List(a)) -> Array(a)
 /// Runs in linear time.
 @external(nix, "../nix_ffi.nix", "array_to_list")
 pub fn to_list(array: Array(a)) -> List(a)
+
+/// Generates an array with a specified length. Takes a function which specifies
+/// a value for each index in the new array.
+///
+/// Runs in linear time, but is not recursive (uses the built-in `genList` function).
+@external(nix, "../nix_ffi.nix", "array_generate")
+pub fn generate(generator: fn(Int) -> element, length: Int) -> Array(element)
