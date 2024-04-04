@@ -103,6 +103,7 @@ let
   builtins_seq = builtins.seq;
   builtins_deep_seq = builtins.deepSeq;
   builtins_to_string = builtins.toString;
+  builtins_typeof = builtins.typeOf;
 in
   {
     inherit
@@ -123,5 +124,6 @@ in
       derivation_from_attrset
       builtins_seq
       builtins_deep_seq
-      builtins_to_string;
+      builtins_to_string
+      builtins_typeof;
   }

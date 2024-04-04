@@ -1,5 +1,42 @@
 //// Library for interacting with Nix built-in types and functions.
 
+pub type TypeOf {
+    IntType
+    BoolType
+    StringType
+    PathType
+    NullType
+    SetType
+    ListType
+    LambdaType
+    FloatType
+}
+
+/// Gets the Nix type of a value.
+///
+/// Note that this function works with the value's
+/// representation within Nix, and so the returned type
+/// shouldn't be associated with a particular Gleam type,
+/// as Gleam types might be represented by different Nix
+/// types.
+pub fn typeof(of subject: a) -> TypeOf {
+    case do_typeof(subject) {
+        "int" -> IntType
+        "bool" -> BoolType
+        "string" -> StringType
+        "path" -> PathType
+        "null" -> NullType
+        "set" -> SetType
+        "list" -> ListType
+        "lambda" -> LambdaType
+        "float" -> FloatType
+        _ -> panic as "Unexpected type received"
+    }
+}
+
+@external(nix, "../nix_ffi.nix", "builtins_typeof")
+fn do_typeof(subject: a) -> String
+
 /// Evaluates the first expression strictly and evaluates and returns the second.
 ///
 /// Nix is lazy by default, so most values aren't actually computed until
