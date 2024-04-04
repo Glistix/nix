@@ -1,10 +1,10 @@
+import nix
 import nix/array
-import nix/builtins
 import gleam/io
 import gleam/string
 
 pub fn strict(value: a, rest: fn() -> b) -> b {
-  builtins.seq(value, rest())
+  nix.seq(value, rest())
 }
 
 pub fn main() {
