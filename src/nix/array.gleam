@@ -44,6 +44,10 @@ pub fn map(array: Array(a), with operator: fn(a) -> b) -> Array(b)
 @external(nix, "../nix_ffi.nix", "array_size")
 pub fn size(array: Array(a)) -> Int
 
+/// Checks if an array contains any element equal to the given value.
+@external(nix, "../nix_ffi.nix", "array_contains")
+pub fn contains(array: Array(a), any elem: a) -> Bool
+
 /// Joins two arrays using Nix's built-in `++` operator.
 @external(nix, "../nix_ffi.nix", "array_concat2")
 pub fn concat2(first: Array(a), second: Array(a)) -> Array(a)

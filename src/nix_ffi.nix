@@ -23,6 +23,7 @@ let
   array_at = arr: index: if builtins.length arr > index then Ok (builtins.elemAt arr index) else Error Nil;
   array_map = arr: operator: builtins.map operator arr;
   array_size = builtins.length;
+  array_contains = arr: value: builtins.elem value arr;
   array_concat2 = a: b: a ++ b;
   array_sort = arr: compare: builtins.sort compare arr;
   array_partition =
@@ -119,6 +120,7 @@ in
       array_at
       array_map
       array_size
+      array_contains
       array_concat2
       array_sort
       array_partition

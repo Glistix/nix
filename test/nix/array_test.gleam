@@ -52,6 +52,16 @@ pub fn array_fold_test() {
   |> should.equal(6)
 }
 
+pub fn array_contains_test() {
+  array.from_list([1, 2, 3])
+  |> array.contains(3)
+  |> should.be_true()
+
+  array.from_list([1, 2, 3])
+  |> array.contains(4)
+  |> should.be_false()
+}
+
 pub fn array_sort_test() {
   array.from_list([3, 10, 4, 32])
   |> array.sort(by: fn(a, b) { b < a })
