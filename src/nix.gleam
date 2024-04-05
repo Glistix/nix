@@ -34,7 +34,7 @@ pub fn typeof(of subject: a) -> TypeOf {
     }
 }
 
-@external(nix, "../nix_ffi.nix", "builtins_typeof")
+@external(nix, "./nix_ffi.nix", "builtins_typeof")
 fn do_typeof(subject: a) -> String
 
 /// Evaluates the first expression strictly and evaluates and returns the second.
@@ -44,7 +44,7 @@ fn do_typeof(subject: a) -> String
 /// (one of the parameters) to be evaluated. For this to properly work, however,
 /// make sure that this `seq` call is evaluated in the first place by using
 /// its return value for something.
-@external(nix, "../nix_ffi.nix", "builtins_seq")
+@external(nix, "./nix_ffi.nix", "builtins_seq")
 pub fn seq(first first: a, then second: b) -> b
 
 /// Evaluates the first expression deeply strictly, and returns the second.
@@ -55,5 +55,5 @@ pub fn seq(first first: a, then second: b) -> b
 ///
 /// Please note that misusing this function may result in performance losses,
 /// or even infinite recursion with infinite data structures.
-@external(nix, "../nix_ffi.nix", "builtins_deep_seq")
+@external(nix, "./nix_ffi.nix", "builtins_deep_seq")
 pub fn deep_seq(first first: a, then second: b) -> b
