@@ -42,6 +42,11 @@ let
   attrset_set = s: k: v: s // { "${k}" = v; };
   attrset_merge = a: b: a // b;
   attrset_intersect = a: b: builtins.intersectAttrs b a;
+  attrset_from_array =
+    attrs:
+      let
+        pairs = builtins.map (x: { name = builtins.head x; value = builtins.elemAt x 1; }) attrs;
+      in builtins.listToAttrs pairs;
 
   # --- paths ---
   path_from_string =
@@ -130,11 +135,12 @@ in
       array_to_list
       array_generate
       attrset_new
+      attrset_size
       attrset_get
       attrset_set
       attrset_merge
       attrset_intersect
-      attrset_size
+      attrset_from_array
       path_from_string
       derivation_new
       derivation_from_attrset

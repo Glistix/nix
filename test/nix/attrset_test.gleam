@@ -1,4 +1,5 @@
 import gleeunit/should
+import nix/array
 import nix/attrset
 
 pub fn attrset_init_test() {
@@ -81,4 +82,22 @@ pub fn attrset_intersect_test() {
   first
   |> attrset.intersect(with: second)
   |> should.equal(result)
+}
+
+pub fn attrset_from_list_and_array_test() {
+  let attrs = [#("a", 1), #("b", 2), #("b", 3)]
+
+  let expected =
+    attrset.new()
+    |> attrset.set("a", 1)
+    |> attrset.set("b", 2)
+
+  attrs
+  |> attrset.from_list
+  |> should.equal(expected)
+
+  attrs
+  |> array.from_list
+  |> attrset.from_array
+  |> should.equal(expected)
 }

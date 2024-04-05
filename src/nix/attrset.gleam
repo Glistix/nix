@@ -1,5 +1,7 @@
 //// Types and functions related to Nix attribute sets.
 
+import nix/array.{type Array}
+
 /// Represents any attribute set in Nix, containing values of a single type.
 pub type AttrSet(value)
 
@@ -31,3 +33,24 @@ pub fn merge(first: AttrSet(a), with second: AttrSet(a)) -> AttrSet(a)
 /// which have the same name as some attribute in the second set.
 @external(nix, "../nix_ffi.nix", "attrset_intersect")
 pub fn intersect(first: AttrSet(a), with second: AttrSet(a)) -> AttrSet(a)
+
+/// Creates an attribute set from a list of `#(key, value)` pairs.
+///
+/// If there are two attributes with the same name, the first occurrence
+/// takes precedence.
+pub fn from_list(attrs: List(#(String, value))) -> AttrSet(value) {
+  case attrs {
+    [] -> new()
+    [#(key, value), ..rest] -> {
+      from_list(rest)
+      |> set(key, value)
+    }
+  }
+}
+
+/// Creates an attribute set from an array of `#(key, value)` pairs.
+///
+/// If there are two attributes with the same name, the first occurrence
+/// takes precedence.
+@external(nix, "../nix_ffi.nix", "attrset_from_array")
+pub fn from_array(attrs: Array(#(String, value))) -> AttrSet(value)
