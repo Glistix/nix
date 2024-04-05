@@ -101,3 +101,11 @@ pub fn attrset_from_list_and_array_test() {
   |> attrset.from_array
   |> should.equal(expected)
 }
+
+pub fn attrset_map_values_test() {
+  attrset.from_list([#("a", 1), #("b", 2), #("c", 3)])
+  |> attrset.map_values(with: fn(_, value) { value >= 2 })
+  |> should.equal(
+    attrset.from_list([#("a", False), #("b", True), #("c", True)]),
+  )
+}

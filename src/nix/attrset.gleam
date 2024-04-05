@@ -24,6 +24,15 @@ pub fn get(set: AttrSet(a), attr: String) -> Result(a, Nil)
 @external(nix, "../nix_ffi.nix", "attrset_set")
 pub fn set(set: AttrSet(a), at attr: String, to value: a) -> AttrSet(a)
 
+/// Updates values in the given attribute set using the output of the given
+/// function, which is called with each attribute's name and value and returns
+/// the new value.
+@external(nix, "../nix_ffi.nix", "attrset_map_values")
+pub fn map_values(
+  in set: AttrSet(a),
+  with fun: fn(String, a) -> b,
+) -> AttrSet(b)
+
 /// Merges two attribute sets, such that attributes in the second set
 /// override those in the first with the same name.
 @external(nix, "../nix_ffi.nix", "attrset_merge")
