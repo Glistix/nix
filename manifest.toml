@@ -3,7 +3,9 @@
 
 packages = [
   { name = "gleam_stdlib", version = "0.36.0", build_tools = ["gleam"], requirements = [], source = "local", path = "../gleam_stdlib" },
+  { name = "gleeunit", version = "1.1.2", build_tools = ["gleam"], requirements = ["gleam_stdlib"], source = "local", path = "../gleeunit" },
 ]
 
 [requirements]
 gleam_stdlib = { path = "../gleam_stdlib" }
+gleeunit = { path = "../gleeunit" }
