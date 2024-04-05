@@ -37,8 +37,8 @@ pub fn map(array: Array(a), with operator: fn(a) -> b) -> Array(b)
 pub fn size(array: Array(a)) -> Int
 
 /// Joins two arrays using Nix's built-in `++` operator.
-@external(nix, "../nix_ffi.nix", "array_concat")
-pub fn concat(first: Array(a), second: Array(a)) -> Array(a)
+@external(nix, "../nix_ffi.nix", "array_concat2")
+pub fn concat2(first: Array(a), second: Array(a)) -> Array(a)
 
 /// Sorts an array using the built-in `sort` function.
 /// The comparator should return `True` if the first element is considered
@@ -72,4 +72,4 @@ pub fn to_list(array: Array(a)) -> List(a)
 ///
 /// Runs in linear time, but is not recursive (uses the built-in `genList` function).
 @external(nix, "../nix_ffi.nix", "array_generate")
-pub fn generate(generator: fn(Int) -> element, length: Int) -> Array(element)
+pub fn generate(length: Int, with generator: fn(Int) -> element) -> Array(element)

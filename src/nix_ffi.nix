@@ -23,7 +23,7 @@ let
   array_get = arr: index: if builtins.length arr > index then Ok (builtins.elemAt arr index) else Error Nil;
   array_map = arr: operator: builtins.map operator arr;
   array_size = builtins.length;
-  array_concat = a: b: a ++ b;
+  array_concat2 = a: b: a ++ b;
   array_sort = arr: compare: builtins.sort compare arr;
   array_partition =
     arr: categorise:
@@ -32,7 +32,7 @@ let
       in [ partitions.right partitions.wrong ];
   array_from_list = l: if l ? tail then [l.head] ++ array_from_list l.tail else [];
   array_to_list = toList;
-  array_generate = builtins.genList;
+  array_generate = length: generator: builtins.genList generator length;
 
   # --- attr sets ---
   attrset_new = {};
@@ -119,7 +119,7 @@ in
       array_get
       array_map
       array_size
-      array_concat
+      array_concat2
       array_sort
       array_partition
       array_from_list

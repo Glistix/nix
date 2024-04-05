@@ -36,7 +36,7 @@ pub fn array_test() {
 
   let arr =
     arr
-    |> array.concat(array.from_list([Ok(4), Ok(5)]))
+    |> array.concat2(array.from_list([Ok(4), Ok(5)]))
 
   let assert True =
     arr == array.from_list([Ok(1), Error(3), Ok(3), Ok(4), Ok(5)])
