@@ -31,6 +31,8 @@ let
       let
         partitions = builtins.partition categorise arr;
       in [ partitions.right partitions.wrong ];
+  array_all = arr: predicate: builtins.all predicate arr;
+  array_any = arr: predicate: builtins.any predicate arr;
   array_from_list = l: if l ? tail then [l.head] ++ array_from_list l.tail else [];
   array_to_list = toList;
   array_generate = length: generator: builtins.genList generator length;
@@ -132,6 +134,8 @@ in
       array_concat2
       array_sort
       array_partition
+      array_all
+      array_any
       array_from_list
       array_to_list
       array_generate

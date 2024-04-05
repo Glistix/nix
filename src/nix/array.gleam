@@ -70,6 +70,18 @@ pub fn partition(
   with categorise: fn(a) -> Bool,
 ) -> #(Array(a), Array(a))
 
+/// Checks if the predicate is satisfied for all elements in the array,
+/// returning `True` if the function returns `True` for all elements,
+/// or `False` if it returned `False` for at least one element.
+@external(nix, "../nix_ffi.nix", "array_all")
+pub fn all(in array: Array(a), satisfying predicate: fn(a) -> Bool) -> Bool
+
+/// Checks if the predicate is satisfied for at least one element in the array,
+/// returning `True` if the function returns `True` for one or more elements,
+/// or `False` if it returned `False` for all elements.
+@external(nix, "../nix_ffi.nix", "array_any")
+pub fn any(in array: Array(a), satisfying predicate: fn(a) -> Bool) -> Bool
+
 /// Converts a Gleam list to a Nix array.
 ///
 /// Runs in linear time, and is recursive, so large lists can cause a stack overflow.

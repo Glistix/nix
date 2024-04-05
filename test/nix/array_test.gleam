@@ -80,6 +80,26 @@ pub fn array_partition_test() {
   |> should.equal(#(array.from_list([10, 32]), array.from_list([3, 4])))
 }
 
+pub fn array_all_any_test() {
+  let arr = array.from_list([1, 2, 3, 4])
+
+  arr
+  |> array.all(satisfying: fn(value) { value > 1 })
+  |> should.be_false
+
+  arr
+  |> array.all(satisfying: fn(value) { value < 5 })
+  |> should.be_true
+
+  arr
+  |> array.any(satisfying: fn(value) { value > 1 })
+  |> should.be_true
+
+  arr
+  |> array.any(satisfying: fn(value) { value > 5 })
+  |> should.be_false
+}
+
 pub fn array_generate_test() {
   array.generate(4, with: fn(i) { 100 * i })
   |> array.to_list
