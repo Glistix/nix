@@ -18,7 +18,7 @@ pub fn array_basic_ops_test() {
     |> array.from_list
 
   arr
-  |> array.at(1)
+  |> array.get(1)
   |> should.be_ok
   |> should.equal(Error(3))
 
