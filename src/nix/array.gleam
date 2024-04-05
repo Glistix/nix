@@ -10,14 +10,22 @@ pub type Array(element)
 ///
 /// Runs in linear time, and is strict (uses the `foldl'` built-in).
 @external(nix, "../nix_ffi.nix", "array_fold")
-pub fn fold(over array: Array(a), from init: b, with operator: fn(b, a) -> b) -> b
+pub fn fold(
+  over array: Array(a),
+  from init: b,
+  with operator: fn(b, a) -> b,
+) -> b
 
 /// Reduces a list of elements into a single value by calling a given function
 /// on each element, going from end to start.
 ///
 /// Runs in linear time, and is lazy and recursive, so large arrays can cause a stack overflow.
 @external(nix, "../nix_ffi.nix", "array_fold_right")
-pub fn fold_right(over array: Array(a), from init: b, with operator: fn(b, a) -> b) -> b
+pub fn fold_right(
+  over array: Array(a),
+  from init: b,
+  with operator: fn(b, a) -> b,
+) -> b
 
 /// Get the element at the given index.
 @external(nix, "../nix_ffi.nix", "array_at")
@@ -53,7 +61,10 @@ pub fn sort(array: Array(a), by compare: fn(a, a) -> Bool) -> Array(a)
 /// the function returned `True`, while the second array includes elements for
 /// which the function returned `False`.
 @external(nix, "../nix_ffi.nix", "array_partition")
-pub fn partition(array: Array(a), with categorise: fn(a) -> Bool) -> #(Array(a), Array(a))
+pub fn partition(
+  array: Array(a),
+  with categorise: fn(a) -> Bool,
+) -> #(Array(a), Array(a))
 
 /// Converts a Gleam list to a Nix array.
 ///
@@ -72,4 +83,7 @@ pub fn to_list(array: Array(a)) -> List(a)
 ///
 /// Runs in linear time, but is not recursive (uses the built-in `genList` function).
 @external(nix, "../nix_ffi.nix", "array_generate")
-pub fn generate(length: Int, with generator: fn(Int) -> element) -> Array(element)
+pub fn generate(
+  length: Int,
+  with generator: fn(Int) -> element,
+) -> Array(element)

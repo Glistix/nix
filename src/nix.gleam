@@ -1,15 +1,15 @@
 //// Library for interacting with Nix built-in types and functions.
 
 pub type TypeOf {
-    IntType
-    BoolType
-    StringType
-    PathType
-    NullType
-    SetType
-    ListType
-    LambdaType
-    FloatType
+  IntType
+  BoolType
+  StringType
+  PathType
+  NullType
+  SetType
+  ListType
+  LambdaType
+  FloatType
 }
 
 /// Gets the Nix type of a value.
@@ -20,18 +20,18 @@ pub type TypeOf {
 /// as Gleam types might be represented by different Nix
 /// types.
 pub fn typeof(of subject: a) -> TypeOf {
-    case do_typeof(subject) {
-        "int" -> IntType
-        "bool" -> BoolType
-        "string" -> StringType
-        "path" -> PathType
-        "null" -> NullType
-        "set" -> SetType
-        "list" -> ListType
-        "lambda" -> LambdaType
-        "float" -> FloatType
-        _ -> panic as "Unexpected type received"
-    }
+  case do_typeof(subject) {
+    "int" -> IntType
+    "bool" -> BoolType
+    "string" -> StringType
+    "path" -> PathType
+    "null" -> NullType
+    "set" -> SetType
+    "list" -> ListType
+    "lambda" -> LambdaType
+    "float" -> FloatType
+    _ -> panic as "Unexpected type received"
+  }
 }
 
 @external(nix, "./nix_ffi.nix", "builtins_typeof")

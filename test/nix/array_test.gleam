@@ -1,5 +1,5 @@
-import nix/array
 import gleeunit/should
+import nix/array
 
 pub fn array_and_list_test() {
   let list = [Ok(1), Error(3), Ok(3)]
@@ -13,8 +13,9 @@ pub fn array_and_list_test() {
 pub fn array_basic_ops_test() {
   let list = [Ok(1), Error(3), Ok(3)]
 
-  let arr = list
-  |> array.from_list
+  let arr =
+    list
+    |> array.from_list
 
   arr
   |> array.at(1)
@@ -36,7 +37,7 @@ pub fn array_basic_ops_test() {
   |> should.equal([Ok(2), Error(2), Ok(4)])
 
   arr
-  |> array.concat2(_, array.from_list([Ok(100), Error(100)]))
+  |> array.concat2(array.from_list([Ok(100), Error(100)]))
   |> array.to_list
   |> should.equal([Ok(1), Error(3), Ok(3), Ok(100), Error(100)])
 }
@@ -66,12 +67,7 @@ pub fn array_sort_test() {
 pub fn array_partition_test() {
   array.from_list([3, 4, 10, 32])
   |> array.partition(with: fn(x) { x > 5 })
-  |> should.equal(
-    #(
-      array.from_list([10, 32]),
-      array.from_list([3, 4])
-    )
-  )
+  |> should.equal(#(array.from_list([10, 32]), array.from_list([3, 4])))
 }
 
 pub fn array_generate_test() {

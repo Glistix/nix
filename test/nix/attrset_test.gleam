@@ -1,5 +1,5 @@
-import nix/attrset
 import gleeunit/should
+import nix/attrset
 
 pub fn attrset_init_test() {
   let set = attrset.new()

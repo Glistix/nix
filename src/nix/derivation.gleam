@@ -42,7 +42,7 @@ pub fn new(
   on system: System,
   using builder: BuilderPath,
   with args: List(String),
-  and_with options: List(ExtraOption)
+  and_with options: List(ExtraOption),
 ) -> Derivation
 
 /// Converts an attribute set, which is assumed to be a derivation already,
