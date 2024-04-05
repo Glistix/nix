@@ -22,6 +22,11 @@ pub fn get(set: AttrSet(a), attr: String) -> Result(a, Nil)
 @external(nix, "../nix_ffi.nix", "attrset_set")
 pub fn set(set: AttrSet(a), at attr: String, to value: a) -> AttrSet(a)
 
+/// Merges two attribute sets, such that attributes in the second set
+/// override those in the first with the same name.
+@external(nix, "../nix_ffi.nix", "attrset_merge")
+pub fn merge(first: AttrSet(a), with second: AttrSet(a)) -> AttrSet(a)
+
 /// Generates an attribute set with all attributes in the first set
 /// which have the same name as some attribute in the second set.
 @external(nix, "../nix_ffi.nix", "attrset_intersect")
