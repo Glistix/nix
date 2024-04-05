@@ -34,3 +34,26 @@ pub fn attrset_set_test() {
   |> should.be_ok
   |> should.equal(345)
 }
+
+pub fn attrset_intersect_test() {
+  let first =
+    attrset.new()
+    |> attrset.set("a", 123)
+    |> attrset.set("b", 456)
+    |> attrset.set("c", 789)
+
+  let second =
+    attrset.new()
+    |> attrset.set("a", 444)
+    |> attrset.set("b", 555)
+    |> attrset.set("e", 999)
+
+  let result =
+    attrset.new()
+    |> attrset.set("a", 123)
+    |> attrset.set("b", 456)
+
+  first
+  |> attrset.intersect(with: second)
+  |> should.equal(result)
+}

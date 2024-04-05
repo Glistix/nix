@@ -40,6 +40,7 @@ let
   attrset_size = s: builtins.length (builtins.attrNames s);
   attrset_get = s: k: if s ? "${k}" then Ok s."${k}" else Error Nil;
   attrset_set = s: k: v: s // { "${k}" = v; };
+  attrset_intersect = a: b: builtins.intersectAttrs b a;
 
   # --- paths ---
   path_from_string =
@@ -130,6 +131,7 @@ in
       attrset_new
       attrset_get
       attrset_set
+      attrset_intersect
       attrset_size
       path_from_string
       derivation_new

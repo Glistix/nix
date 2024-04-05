@@ -21,3 +21,8 @@ pub fn get(set: AttrSet(a), attr: String) -> Result(a, Nil)
 /// The original attribute set is NOT changed and is immutable.
 @external(nix, "../nix_ffi.nix", "attrset_set")
 pub fn set(set: AttrSet(a), at attr: String, to value: a) -> AttrSet(a)
+
+/// Generates an attribute set with all attributes in the first set
+/// which have the same name as some attribute in the second set.
+@external(nix, "../nix_ffi.nix", "attrset_intersect")
+pub fn intersect(first: AttrSet(a), with second: AttrSet(a)) -> AttrSet(a)
