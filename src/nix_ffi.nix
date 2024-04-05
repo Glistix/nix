@@ -45,11 +45,18 @@ let
   attrset_map_values = set: fun: builtins.mapAttrs fun set;
   attrset_merge = a: b: a // b;
   attrset_intersect = a: b: builtins.intersectAttrs b a;
+  attrset_names = set: toList (builtins.attrNames set);
+  attrset_values = set: toList (builtins.attrValues set);
   attrset_from_array =
     attrs:
       let
         pairs = builtins.map (x: { name = builtins.head x; value = builtins.elemAt x 1; }) attrs;
       in builtins.listToAttrs pairs;
+  attrset_to_list =
+    set:
+      let
+        pairs = builtins.map (name: [ name set.${name} ]) (builtins.attrNames set);
+      in toList pairs;
 
   # --- paths ---
   path_from_string =
@@ -146,7 +153,10 @@ in
       attrset_map_values
       attrset_merge
       attrset_intersect
+      attrset_names
+      attrset_values
       attrset_from_array
+      attrset_to_list
       path_from_string
       derivation_new
       derivation_from_attrset

@@ -43,7 +43,15 @@ pub fn merge(first: AttrSet(a), with second: AttrSet(a)) -> AttrSet(a)
 @external(nix, "../nix_ffi.nix", "attrset_intersect")
 pub fn intersect(first: AttrSet(a), with second: AttrSet(a)) -> AttrSet(a)
 
-/// Creates an attribute set from a list of `#(key, value)` pairs.
+/// Obtains the list of attribute names in the given attribute set.
+@external(nix, "../nix_ffi.nix", "attrset_names")
+pub fn names(in set: AttrSet(a)) -> List(String)
+
+/// Obtains the list of values in the given attribute set.
+@external(nix, "../nix_ffi.nix", "attrset_values")
+pub fn values(in set: AttrSet(a)) -> List(a)
+
+/// Creates an attribute set from a list of `#(name, value)` pairs.
 ///
 /// If there are two attributes with the same name, the first occurrence
 /// takes precedence.
@@ -57,9 +65,13 @@ pub fn from_list(attrs: List(#(String, value))) -> AttrSet(value) {
   }
 }
 
-/// Creates an attribute set from an array of `#(key, value)` pairs.
+/// Creates an attribute set from an array of `#(name, value)` pairs.
 ///
 /// If there are two attributes with the same name, the first occurrence
 /// takes precedence.
 @external(nix, "../nix_ffi.nix", "attrset_from_array")
 pub fn from_array(attrs: Array(#(String, value))) -> AttrSet(value)
+
+/// Obtains a list of `#(name, value)` pairs from an attribute set.
+@external(nix, "../nix_ffi.nix", "attrset_to_list")
+pub fn to_list(set: AttrSet(a)) -> List(#(String, a))

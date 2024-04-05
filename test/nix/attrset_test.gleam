@@ -109,3 +109,19 @@ pub fn attrset_map_values_test() {
     attrset.from_list([#("a", False), #("b", True), #("c", True)]),
   )
 }
+
+pub fn attrset_extract_lists_test() {
+  let set = attrset.from_list([#("a", 1), #("b", 2), #("c", 1)])
+
+  set
+  |> attrset.names
+  |> should.equal(["a", "b", "c"])
+
+  set
+  |> attrset.values
+  |> should.equal([1, 2, 1])
+
+  set
+  |> attrset.to_list
+  |> should.equal([#("a", 1), #("b", 2), #("c", 1)])
+}
