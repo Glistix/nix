@@ -24,6 +24,12 @@ let
   array_map = arr: operator: builtins.map operator arr;
   array_size = builtins.length;
   array_concat = a: b: a ++ b;
+  array_sort = arr: compare: builtins.sort compare arr;
+  array_partition =
+    arr: categorise:
+      let
+        partitions = builtins.partition categorise arr;
+      in [ partitions.right partitions.wrong ];
   array_from_list = l: if l ? tail then [l.head] ++ array_from_list l.tail else [];
   array_to_list = toList;
   array_generate = builtins.genList;
@@ -114,6 +120,8 @@ in
       array_map
       array_size
       array_concat
+      array_sort
+      array_partition
       array_from_list
       array_to_list
       array_generate

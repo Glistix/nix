@@ -40,6 +40,21 @@ pub fn size(array: Array(a)) -> Int
 @external(nix, "../nix_ffi.nix", "array_concat")
 pub fn concat(first: Array(a), second: Array(a)) -> Array(a)
 
+/// Sorts an array using the built-in `sort` function.
+/// The comparator should return `True` if the first element is considered
+/// 'less' than the second, and `False` otherwise.
+/// This uses a stable sort algorithm, meaning elements which compare equal
+/// preserve their relative order.
+@external(nix, "../nix_ffi.nix", "array_sort")
+pub fn sort(array: Array(a), by compare: fn(a, a) -> Bool) -> Array(a)
+
+/// Partitions an array's elements into a pair of arrays based on the output
+/// of the given function. The first array returned includes elements for which
+/// the function returned `True`, while the second array includes elements for
+/// which the function returned `False`.
+@external(nix, "../nix_ffi.nix", "array_partition")
+pub fn partition(array: Array(a), with categorise: fn(a) -> Bool) -> #(Array(a), Array(a))
+
 /// Converts a Gleam list to a Nix array.
 ///
 /// Runs in linear time, and is recursive, so large lists can cause a stack overflow.
