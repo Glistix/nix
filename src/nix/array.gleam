@@ -6,14 +6,14 @@
 pub type Array(element)
 
 /// Reduces a list of elements into a single value by calling a given function
-/// on each element, going from right to left.
+/// on each element, going from start to end.
 ///
 /// Runs in linear time, and is strict (uses the `foldl'` built-in).
 @external(nix, "../nix_ffi.nix", "array_fold")
 pub fn fold(over array: Array(a), from init: b, with operator: fn(b, a) -> b) -> b
 
 /// Reduces a list of elements into a single value by calling a given function
-/// on each element, going from right to left.
+/// on each element, going from end to start.
 ///
 /// Runs in linear time, and is lazy and recursive, so large arrays can cause a stack overflow.
 @external(nix, "../nix_ffi.nix", "array_fold_right")
