@@ -35,7 +35,7 @@ let
   array_generate = length: generator: builtins.genList generator length;
 
   # --- attr sets ---
-  attrset_new = {};
+  attrset_new = {}: {};
   attrset_size = s: builtins.length (builtins.attrNames s);
   attrset_get = s: k: if s ? "${k}" then Ok s."${k}" else Error Nil;
   attrset_set = s: k: v: s // { "${k}" = v; };
