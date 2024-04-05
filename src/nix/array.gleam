@@ -29,7 +29,7 @@ pub fn fold_right(
 
 /// Get the element at the given index.
 @external(nix, "../nix_ffi.nix", "array_get")
-pub fn get(array: Array(a), b: Int) -> Result(a, Nil)
+pub fn get(array: Array(a), at index: Int) -> Result(a, Nil)
 
 /// Returns a new array containing only the elements of the first array after
 /// the function has been applied to each one.
