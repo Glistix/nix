@@ -109,8 +109,7 @@ let
       else Error Nil;
 
   # --- builtins ---
-  builtins_seq = builtins.seq;
-  builtins_deep_seq = builtins.deepSeq;
+  deep_eval = x: builtins.deepSeq x x;
   builtins_to_string = builtins.toString;
   builtins_typeof = builtins.typeOf;
 in
@@ -147,8 +146,7 @@ in
       current_system
       current_time
       get_env
-      builtins_seq
-      builtins_deep_seq
+      deep_eval
       builtins_to_string
       builtins_typeof;
   }
