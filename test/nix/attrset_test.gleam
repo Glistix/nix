@@ -70,9 +70,9 @@ pub fn attrset_intersect_test() {
 
   let second =
     attrset.new()
-    |> attrset.set("a", 444)
-    |> attrset.set("b", 555)
-    |> attrset.set("e", 999)
+    |> attrset.set("a", "444")
+    |> attrset.set("b", "555")
+    |> attrset.set("e", "999")
 
   let result =
     attrset.new()

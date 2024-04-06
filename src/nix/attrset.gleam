@@ -41,7 +41,7 @@ pub fn merge(first: AttrSet(a), with second: AttrSet(a)) -> AttrSet(a)
 /// Generates an attribute set with all attributes in the first set
 /// which have the same name as some attribute in the second set.
 @external(nix, "../nix_ffi.nix", "attrset_intersect")
-pub fn intersect(first: AttrSet(a), with second: AttrSet(a)) -> AttrSet(a)
+pub fn intersect(first: AttrSet(a), with second: AttrSet(b)) -> AttrSet(a)
 
 /// Obtains the list of attribute names in the given attribute set.
 @external(nix, "../nix_ffi.nix", "attrset_names")
