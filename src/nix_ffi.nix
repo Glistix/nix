@@ -75,21 +75,6 @@ let
         else ./${string};
 
   # --- derivations ---
-  system_to_string =
-    system:
-      let
-        tag = system.__gleamTag;
-      in
-        if tag == "X8664Linux"
-        then "x86_64-linux"
-        else if tag == "X8664Darwin"
-        then "x86_64-darwin"
-        else if tag == "Aarch64Linux"
-        then "aarch64-linux"
-        else if tag == "Aarch64Darwin"
-        then "aarch64-darwin"
-        else system._0;
-
   extract_builder_path = builder: builder._0;
 
   convert_extra_options =
@@ -108,13 +93,11 @@ let
   derivation_new =
     name: system: builder: args: options:
       let
-        convertedSystem = system_to_string system;
         extractedBuilder = extract_builder_path builder;
         convertedArgs = array_from_list args;
         drvOptions = {
-          inherit name;
+          inherit name system;
           builder = extractedBuilder;
-          system = convertedSystem;
           args = convertedArgs;
         };
         drvExtraOptions = drvOptions // (convert_extra_options options);

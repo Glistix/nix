@@ -2,6 +2,7 @@
 
 import nix/attrset.{type AttrSet}
 import nix/path.{type Path}
+import nix/system.{type System}
 
 /// A derivation in Nix is a special attribute set with building information
 /// as well as where it is to be stored in the Nix store.
@@ -21,28 +22,29 @@ pub type ExtraOption {
   Outputs(List(String))
 }
 
-/// A valid system for Nix.
-/// Includes most common options.
-/// This can change over time, so an escape hatch is included.
-pub type System {
-  X8664Linux
-  X8664Darwin
-  Aarch64Darwin
-  Aarch64Linux
-  OtherSystem(String)
-}
-
 /// Creates a new derivation.
 ///
 /// Please refer to the NixOS manual, at https://nixos.org/manual/nix/stable/language/derivations,
 /// to learn more about these options.
-@external(nix, "../nix_ffi.nix", "derivation_new")
 pub fn new(
   named name: String,
   on system: System,
   using builder: BuilderPath,
   with args: List(String),
   and_with options: List(ExtraOption),
+) -> Derivation {
+  let system = system.to_string(system)
+
+  do_new(name, system, builder, args, options)
+}
+
+@external(nix, "../nix_ffi.nix", "derivation_new")
+fn do_new(
+  name: String,
+  system: String,
+  builder: BuilderPath,
+  args: List(String),
+  options: List(ExtraOption),
 ) -> Derivation
 
 /// Converts an attribute set, which is assumed to be a derivation already,
