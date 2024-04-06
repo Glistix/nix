@@ -14,7 +14,7 @@ licences = ["MIT", "Apache-2.0"]
 # https://gleam.run/writing-gleam/gleam-toml/.
 
 [dependencies]
+gleam_stdlib = { path = "../gleam_stdlib" }
 
 [dev-dependencies]
-gleam_stdlib = { path = "../gleam_stdlib" }
 gleeunit = { path = "../gleeunit" }

@@ -75,32 +75,11 @@ let
         else ./${string};
 
   # --- derivations ---
-  extract_builder_path = builder: builder._0;
-
-  convert_extra_options =
-    options:
-      let
-        tag = options.head.__gleamTag;
-      in
-        if listIsEmpty options
-        then {}
-        else if tag == "Outputs"
-        then
-          { outputs = array_from_list options.head._0; }
-            // (convert_extra_options options.tail)
-        else throw "Unimplemented";
-
   derivation_new =
     name: system: builder: args: options:
       let
-        extractedBuilder = extract_builder_path builder;
-        convertedArgs = array_from_list args;
-        drvOptions = {
-          inherit name system;
-          builder = extractedBuilder;
-          args = convertedArgs;
-        };
-        drvExtraOptions = drvOptions // (convert_extra_options options);
+        drvOptions = { inherit name system builder args; };
+        drvExtraOptions = drvOptions // options;
       in builtins.derivation drvExtraOptions;
 
   derivation_from_attrset =

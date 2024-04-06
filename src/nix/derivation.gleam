@@ -1,5 +1,7 @@
 //// Types and functions related to Nix derivations.
 
+import gleam/dynamic.{type Dynamic}
+import nix/array.{type Array}
 import nix/attrset.{type AttrSet}
 import nix/path.{type Path}
 import nix/system.{type System}
@@ -22,6 +24,21 @@ pub type ExtraOption {
   Outputs(List(String))
 }
 
+fn convert_extra_options(options: List(ExtraOption)) -> List(#(String, Dynamic)) {
+  case options {
+    [] -> []
+    [Outputs(outs), ..rest] -> [
+      #(
+        "outputs",
+        outs
+        |> array.from_list
+        |> dynamic.from
+      ),
+      ..convert_extra_options(rest)
+    ]
+  }
+}
+
 /// Creates a new derivation.
 ///
 /// Please refer to the NixOS manual, at https://nixos.org/manual/nix/stable/language/derivations,
@@ -35,6 +52,19 @@ pub fn new(
 ) -> Derivation {
   let system = system.to_string(system)
 
+  let builder = case builder {
+    StorePath(path) -> dynamic.from(path)
+    ArbitraryPath(path) -> dynamic.from(path)
+  }
+
+  let args =
+    args
+    |> array.from_list
+
+  let options =
+    convert_extra_options(options)
+    |> attrset.from_list
+
   do_new(name, system, builder, args, options)
 }
 
@@ -42,9 +72,9 @@ pub fn new(
 fn do_new(
   name: String,
   system: String,
-  builder: BuilderPath,
-  args: List(String),
-  options: List(ExtraOption),
+  builder: builder,
+  args: Array(String),
+  options: AttrSet(options),
 ) -> Derivation
 
 /// Converts an attribute set, which is assumed to be a derivation already,
