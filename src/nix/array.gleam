@@ -1,5 +1,7 @@
 //// Contains types and functions related to Nix's built-in lists (consisting of arrays).
 
+import gleam/result
+
 /// A Nix list. This is not a linked list, but rather a contiguous array.
 /// The fastest way to access values in this array is by index.
 /// Recursion over this type tends to be slower, as a consequence (would be `O(N^2)`).
@@ -37,6 +39,19 @@ pub fn get(array: Array(a), at index: Int) -> Result(a, Nil)
 /// Runs in linear time.
 @external(nix, "../nix_ffi.nix", "array_map")
 pub fn map(array: Array(a), with operator: fn(a) -> b) -> Array(b)
+
+/// Similar to `map`, but the function receives each element
+/// as well as its index.
+///
+/// Runs in linear time.
+pub fn index_map(array: Array(a), with operator: fn(Int, a) -> b) -> Array(b) {
+  generate(size(array), with: fn(index) {
+    array
+    |> get(at: index)
+    |> result.lazy_unwrap(or: fn() { panic as "Array size was already checked" })
+    |> operator(index, _)
+  })
+}
 
 /// Gets the amount of elements in the array.
 ///

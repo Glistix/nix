@@ -52,6 +52,13 @@ pub fn array_fold_test() {
   |> should.equal(6)
 }
 
+pub fn array_index_map_test() {
+  array.from_list(["a", "b", "c"])
+  |> array.index_map(with: fn(index, element) { #(index, element) })
+  |> array.to_list
+  |> should.equal([#(0, "a"), #(1, "b"), #(2, "c")])
+}
+
 pub fn array_contains_test() {
   array.from_list([1, 2, 3])
   |> array.contains(3)
