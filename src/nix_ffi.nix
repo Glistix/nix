@@ -1,5 +1,5 @@
 let
-  inherit (builtins.import ./gleam.nix) Ok Error toList listIsEmpty;
+  inherit (builtins.import ./gleam.nix) Ok Error toList;
   Nil = null;
 
   # --- internal ---
@@ -52,11 +52,11 @@ let
       let
         pairs = builtins.map (x: { name = builtins.head x; value = builtins.elemAt x 1; }) attrs;
       in builtins.listToAttrs pairs;
-  attrset_to_list =
+  attrset_to_array =
     set:
       let
         pairs = builtins.map (name: [ name set.${name} ]) (builtins.attrNames set);
-      in toList pairs;
+      in pairs;
 
   # --- paths ---
   path_from_string =
@@ -140,7 +140,7 @@ in
       attrset_names
       attrset_values
       attrset_from_array
-      attrset_to_list
+      attrset_to_array
       path_from_string
       derivation_new
       derivation_from_attrset

@@ -31,8 +31,8 @@ fn convert_extra_options(options: List(ExtraOption)) -> List(#(String, Dynamic))
       #(
         "outputs",
         outs
-        |> array.from_list
-        |> dynamic.from
+          |> array.from_list
+          |> dynamic.from,
       ),
       ..convert_extra_options(rest)
     ]

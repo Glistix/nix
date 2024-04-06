@@ -124,4 +124,11 @@ pub fn attrset_extract_lists_test() {
   set
   |> attrset.to_list
   |> should.equal([#("a", 1), #("b", 2), #("c", 1)])
+
+  set
+  |> attrset.to_array
+  |> should.equal(
+    [#("a", 1), #("b", 2), #("c", 1)]
+    |> array.from_list,
+  )
 }

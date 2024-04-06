@@ -73,5 +73,11 @@ pub fn from_list(attrs: List(#(String, value))) -> AttrSet(value) {
 pub fn from_array(attrs: Array(#(String, value))) -> AttrSet(value)
 
 /// Obtains a list of `#(name, value)` pairs from an attribute set.
-@external(nix, "../nix_ffi.nix", "attrset_to_list")
-pub fn to_list(set: AttrSet(a)) -> List(#(String, a))
+pub fn to_list(set: AttrSet(a)) -> List(#(String, a)) {
+  to_array(set)
+  |> array.to_list
+}
+
+/// Obtains an array of `#(name, value)` pairs from an attribute set.
+@external(nix, "../nix_ffi.nix", "attrset_to_array")
+pub fn to_array(set: AttrSet(a)) -> Array(#(String, a))
