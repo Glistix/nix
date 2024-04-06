@@ -86,6 +86,28 @@ let
     attrset:
       attrset // { type = "derivation"; };
 
+  # --- environment ---
+  current_system =
+    {}:
+      if builtins.isString (builtins.currentSystem or null)
+      then Ok builtins.currentSystem
+      else Error Nil;
+
+  current_time =
+    {}:
+      if builtins.isInt (builtins.currentTime or null)
+      then Ok builtins.currentTime
+      else Error Nil;
+
+  get_env =
+    name:
+      if builtins.isFunction (builtins.getEnv or null)
+      then
+        let
+          value = builtins.getEnv name;
+        in if value == "" then Error Nil else Ok value
+      else Error Nil;
+
   # --- builtins ---
   builtins_seq = builtins.seq;
   builtins_deep_seq = builtins.deepSeq;
@@ -122,6 +144,9 @@ in
       path_from_string
       derivation_new
       derivation_from_attrset
+      current_system
+      current_time
+      get_env
       builtins_seq
       builtins_deep_seq
       builtins_to_string
