@@ -1,5 +1,7 @@
 //// Types and functions related to Nix attribute sets.
 
+import gleam/dict.{type Dict}
+
 import nix/array.{type Array}
 
 /// Represents any attribute set in Nix, containing values of a single type.
@@ -72,6 +74,13 @@ pub fn from_list(attrs: List(#(String, value))) -> AttrSet(value) {
 @external(nix, "../nix_ffi.nix", "attrset_from_array")
 pub fn from_array(attrs: Array(#(String, value))) -> AttrSet(value)
 
+/// Creates an attribute set from a dictionary with string keys.
+pub fn from_dict(dict: Dict(String, value)) -> AttrSet(value) {
+  dict
+  |> dict.to_list
+  |> from_list
+}
+
 /// Obtains a list of `#(name, value)` pairs from an attribute set.
 pub fn to_list(set: AttrSet(a)) -> List(#(String, a)) {
   to_array(set)
@@ -81,3 +90,10 @@ pub fn to_list(set: AttrSet(a)) -> List(#(String, a)) {
 /// Obtains an array of `#(name, value)` pairs from an attribute set.
 @external(nix, "../nix_ffi.nix", "attrset_to_array")
 pub fn to_array(set: AttrSet(a)) -> Array(#(String, a))
+
+/// Converts an attribute set to a dictionary with string keys.
+pub fn to_dict(set: AttrSet(a)) -> Dict(String, a) {
+  set
+  |> to_list
+  |> dict.from_list
+}

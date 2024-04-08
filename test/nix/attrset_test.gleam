@@ -1,3 +1,4 @@
+import gleam/dict
 import gleeunit/should
 import nix/array
 import nix/attrset
@@ -100,6 +101,17 @@ pub fn attrset_from_list_and_array_test() {
   |> array.from_list
   |> attrset.from_array
   |> should.equal(expected)
+}
+
+pub fn attrset_from_to_dict_test() {
+  let pairs = [#("a", 1), #("b", 2), #("c", 3)]
+
+  pairs
+  |> dict.from_list
+  |> attrset.from_dict
+  |> attrset.to_dict
+  |> dict.to_list
+  |> should.equal(pairs)
 }
 
 pub fn attrset_map_values_test() {
