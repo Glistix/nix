@@ -37,9 +37,27 @@ pub fn array_basic_ops_test() {
   |> should.equal([Ok(2), Error(2), Ok(4)])
 
   arr
-  |> array.concat2(array.from_list([Ok(100), Error(100)]))
+  |> array.append(array.from_list([Ok(100), Error(100)]))
   |> array.to_list
   |> should.equal([Ok(1), Error(3), Ok(3), Ok(100), Error(100)])
+}
+
+pub fn array_append_test() {
+  let first = array.from_list([1, 2])
+  let second = array.from_list([7, 8, 9])
+
+  array.append(first, second)
+  |> should.equal(array.from_list([1, 2, 7, 8, 9]))
+}
+
+pub fn array_concat_test() {
+  let first = array.from_list([1, 2])
+  let second = array.from_list([7, 8])
+  let third = array.from_list([-1, -2])
+
+  array.from_list([first, second, third])
+  |> array.concat
+  |> should.equal(array.from_list([1, 2, 7, 8, -1, -2]))
 }
 
 pub fn array_fold_test() {

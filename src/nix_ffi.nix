@@ -24,7 +24,8 @@ let
   array_map = arr: operator: builtins.map operator arr;
   array_size = builtins.length;
   array_contains = arr: value: builtins.elem value arr;
-  array_concat2 = a: b: a ++ b;
+  array_append = a: b: a ++ b;
+  array_concat = builtins.concatLists;
   array_sort = arr: compare: builtins.sort compare arr;
   array_partition =
     arr: categorise:
@@ -121,7 +122,8 @@ in
       array_map
       array_size
       array_contains
-      array_concat2
+      array_append
+      array_concat
       array_sort
       array_partition
       array_all

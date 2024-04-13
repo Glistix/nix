@@ -63,9 +63,32 @@ pub fn size(array: Array(a)) -> Int
 @external(nix, "../../nix_ffi.nix", "array_contains")
 pub fn contains(array: Array(a), any elem: a) -> Bool
 
-/// Joins two arrays using Nix's built-in `++` operator.
-@external(nix, "../../nix_ffi.nix", "array_concat2")
-pub fn concat2(first: Array(a), second: Array(a)) -> Array(a)
+/// Joins the second array to the end of the first using Nix's
+/// built-in `++` operator.
+///
+/// ## Examples
+///
+/// ```gleam
+/// append(from_list([1, 2]), from_list([7, 8]))
+/// // -> from_list([1, 2, 7, 8])
+/// ```
+@external(nix, "../../nix_ffi.nix", "array_append")
+pub fn append(first: Array(a), second: Array(a)) -> Array(a)
+
+/// Concatenates an array of arrays into a single array.
+/// Uses `builtins.concatLists` for this task.
+///
+/// ## Examples
+///
+/// ```gleam
+/// let first = from_list([1, 2])
+/// let second = from_list([3, 4])
+/// let third = from_list([5])
+/// concat(from_list([first, second, third]))
+/// // -> from_list([1, 2, 3, 4, 5])
+/// ```
+@external(nix, "../../nix_ffi.nix", "array_concat")
+pub fn concat(arrays: Array(Array(a))) -> Array(a)
 
 /// Sorts an array using the built-in `sort` function.
 /// The comparator should return `True` if the first element is considered
