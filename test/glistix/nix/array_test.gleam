@@ -1,4 +1,7 @@
+import gleam/float
+import gleam/int
 import gleam/iterator
+import gleam/result
 import gleeunit/should
 import glistix/nix/array
 
@@ -97,6 +100,10 @@ pub fn array_concat_test() {
   array.from_list([first, second, third])
   |> array.concat
   |> should.equal(array.from_list([1, 2, 7, 8, -1, -2]))
+
+  array.from_list([first, second, third])
+  |> array.flatten
+  |> should.equal(array.from_list([1, 2, 7, 8, -1, -2]))
 }
 
 pub fn array_fold_test() {
@@ -114,6 +121,19 @@ pub fn array_index_map_test() {
   |> array.index_map(with: fn(index, element) { #(index, element) })
   |> array.to_list
   |> should.equal([#(0, "a"), #(1, "b"), #(2, "c")])
+}
+
+pub fn array_flat_map_test() {
+  array.from_list([1, 2, 3])
+  |> array.flat_map(with: fn(elem) {
+    let pow =
+      int.power(2, int.to_float(elem))
+      |> result.unwrap(or: 0.0)
+      |> float.round
+
+    array.from_list([elem, pow])
+  })
+  |> should.equal(array.from_list([1, 2, 2, 4, 3, 8]))
 }
 
 pub fn array_contains_test() {

@@ -59,18 +59,38 @@ fn do_unsafe_get(array: Array(a), index: Int) -> a
 ///
 /// Runs in linear time.
 @external(nix, "../../nix_ffi.nix", "array_map")
-pub fn map(array: Array(a), with operator: fn(a) -> b) -> Array(b)
+pub fn map(over array: Array(a), with operator: fn(a) -> b) -> Array(b)
 
 /// Similar to `map`, but the function receives each element
 /// as well as its index.
 ///
 /// Runs in linear time.
-pub fn index_map(array: Array(a), with operator: fn(Int, a) -> b) -> Array(b) {
+pub fn index_map(
+  over array: Array(a),
+  with operator: fn(Int, a) -> b,
+) -> Array(b) {
   generate(size(array), with: fn(index) {
     array
     |> do_unsafe_get(index)
     |> operator(index, _)
   })
+}
+
+/// Similar to `map`, but flattens the resulting array of arrays after mapping.
+///
+/// ## Examples
+///
+/// ```gleam
+/// flat_map(from_list([8, 9, 10]), fn(x) { from_list([x, x - 1, x * 2]) })
+/// // -> from_list([8, 7, 16, 9, 8, 18, 10, 9, 20])
+/// ```
+pub fn flat_map(
+  over array: Array(a),
+  with operator: fn(a) -> Array(b),
+) -> Array(b) {
+  array
+  |> map(with: operator)
+  |> flatten
 }
 
 /// Gets the amount of elements in the array.
@@ -124,6 +144,22 @@ pub fn append(first: Array(a), second: Array(a)) -> Array(a)
 /// ```
 @external(nix, "../../nix_ffi.nix", "array_concat")
 pub fn concat(arrays: Array(Array(a))) -> Array(a)
+
+/// This is the same as `concat`, which joins an array of arrays into
+/// a single array.
+///
+/// ## Examples
+///
+/// ```gleam
+/// let first = from_list([1, 2])
+/// let second = from_list([3, 4])
+/// let third = from_list([5])
+/// flatten(from_list([first, second, third]))
+/// // -> from_list([1, 2, 3, 4, 5])
+/// ```
+pub fn flatten(arrays: Array(Array(a))) -> Array(a) {
+  concat(arrays)
+}
 
 /// Sorts an array using the built-in `sort` function.
 /// The comparator should return `True` if the first element is considered
