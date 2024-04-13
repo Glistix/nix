@@ -78,3 +78,7 @@ You will then be able to run the command below to the test the library.
 // Run library tests
 gleam test
 ```
+
+## License
+
+This project is licensed under Apache 2.0 and MIT, at your option.
