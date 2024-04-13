@@ -103,6 +103,62 @@ pub fn size(array: Array(a)) -> Int
 @external(nix, "../../nix_ffi.nix", "array_contains")
 pub fn contains(array: Array(a), any elem: a) -> Bool
 
+/// Returns the first element of the array, if it isn't empty.
+///
+/// ## Examples
+///
+/// ```gleam
+/// first(from_list([]))
+/// // -> Error(Nil)
+///
+/// first(from_list([1]))
+/// // -> Ok(1)
+///
+/// first(from_list([2, 3, 4]))
+/// // -> Ok(2)
+/// ```
+pub fn first(array: Array(a)) -> Result(a, Nil) {
+  case size(array) {
+    0 -> Error(Nil)
+    _ -> Ok(do_unsafe_first(array))
+  }
+}
+
+/// Returns the first element of the array without checking.
+@external(nix, "../../nix_ffi.nix", "array_first")
+fn do_unsafe_first(array: Array(a)) -> a
+
+/// Returns the array minus its first element, or `Error(Nil)` if it is empty.
+///
+/// Note that this runs in linear time, so using `rest` with a recursive algorithm
+/// will yield `O(n^2)` complexity. Consider using increasing indices to access the
+/// array instead, if possible. Alternatively, use a `List` with such algorithms
+/// instead, as the equivalent operation over `List` runs in constant time (while
+/// indexing over a `List` runs in linear time).
+///
+/// ## Examples
+///
+/// ```gleam
+/// rest(from_list([]))
+/// // -> Error(Nil)
+///
+/// rest(from_list([1]))
+/// // -> Ok(from_list([]))
+///
+/// rest(from_list([1, 2]))
+/// // -> Ok(from_list([2]))
+/// ```
+pub fn rest(array: Array(a)) -> Result(Array(a), Nil) {
+  case size(array) {
+    0 -> Error(Nil)
+    _ -> Ok(do_unsafe_rest(array))
+  }
+}
+
+/// Returns the elements of the array after the first without checking.
+@external(nix, "../../nix_ffi.nix", "array_rest")
+fn do_unsafe_rest(array: Array(a)) -> Array(a)
+
 /// Filters the array, returning a new array containing only the elements
 /// for which the predicate function returned `True`.
 ///

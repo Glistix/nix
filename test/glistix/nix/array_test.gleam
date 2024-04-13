@@ -146,6 +146,34 @@ pub fn array_contains_test() {
   |> should.be_false()
 }
 
+pub fn array_first_test() {
+  array.from_list([])
+  |> array.first
+  |> should.be_error
+
+  array.from_list([1])
+  |> array.first
+  |> should.equal(Ok(1))
+
+  array.from_list([2, 3])
+  |> array.first
+  |> should.equal(Ok(2))
+}
+
+pub fn array_rest_test() {
+  array.from_list([])
+  |> array.rest
+  |> should.be_error
+
+  array.from_list([1])
+  |> array.rest
+  |> should.equal(Ok(array.from_list([])))
+
+  array.from_list([2, 3])
+  |> array.rest
+  |> should.equal(Ok(array.from_list([3])))
+}
+
 pub fn array_filter_test() {
   array.from_list([2, 3, 4, 5])
   |> array.filter(keeping: fn(x) { x > 3 })

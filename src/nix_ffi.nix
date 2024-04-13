@@ -25,6 +25,8 @@ let
   array_flat_map = arr: operator: builtins.concatMap operator arr;
   array_size = builtins.length;
   array_contains = arr: value: builtins.elem value arr;
+  array_first = builtins.head;
+  array_rest = builtins.tail;
   array_filter = arr: predicate: builtins.filter predicate arr;
   array_append = a: b: a ++ b;
   array_concat = builtins.concatLists;
@@ -125,6 +127,8 @@ in
       array_flat_map
       array_size
       array_contains
+      array_first
+      array_rest
       array_filter
       array_append
       array_concat
