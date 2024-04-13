@@ -78,20 +78,20 @@ pub fn index_map(
 
 /// Similar to `map`, but flattens the resulting array of arrays after mapping.
 ///
+/// This function is more efficient than a `map` followed by `flatten`, as it
+/// uses the built-in `builtins.concatMap` function.
+///
 /// ## Examples
 ///
 /// ```gleam
 /// flat_map(from_list([8, 9, 10]), fn(x) { from_list([x, x - 1, x * 2]) })
 /// // -> from_list([8, 7, 16, 9, 8, 18, 10, 9, 20])
 /// ```
+@external(nix, "../../nix_ffi.nix", "array_flat_map")
 pub fn flat_map(
   over array: Array(a),
   with operator: fn(a) -> Array(b),
-) -> Array(b) {
-  array
-  |> map(with: operator)
-  |> flatten
-}
+) -> Array(b)
 
 /// Gets the amount of elements in the array.
 ///

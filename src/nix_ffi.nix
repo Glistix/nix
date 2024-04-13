@@ -22,6 +22,7 @@ let
   array_fold_right = arr: init: operator: foldr (elem: acc: operator acc elem) init arr;
   array_get = builtins.elemAt;
   array_map = arr: operator: builtins.map operator arr;
+  array_flat_map = arr: operator: builtins.concatMap operator arr;
   array_size = builtins.length;
   array_contains = arr: value: builtins.elem value arr;
   array_filter = arr: predicate: builtins.filter predicate arr;
@@ -121,6 +122,7 @@ in
       array_fold_right
       array_get
       array_map
+      array_flat_map
       array_size
       array_contains
       array_filter
