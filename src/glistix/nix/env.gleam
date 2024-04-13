@@ -20,7 +20,7 @@ pub fn current_system() -> Result(System, Nil) {
 }
 
 @external(nix, "../../nix_ffi.nix", "current_system")
-pub fn do_current_system() -> Result(String, Nil)
+fn do_current_system() -> Result(String, Nil)
 
 /// Accesses the current Unix time in seconds since the epoch
 /// (January 1, 1970), if available.
