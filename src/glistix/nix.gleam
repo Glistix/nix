@@ -34,7 +34,7 @@ pub fn typeof(of subject: a) -> TypeOf {
   }
 }
 
-@external(nix, "./nix_ffi.nix", "builtins_typeof")
+@external(nix, "../nix_ffi.nix", "builtins_typeof")
 fn do_typeof(subject: a) -> String
 
 /// Evaluates the expression strictly, recursively.
@@ -61,5 +61,5 @@ fn do_typeof(subject: a) -> String
 /// }
 /// // -> error: Bad
 /// ```
-@external(nix, "./nix_ffi.nix", "deep_eval")
+@external(nix, "../nix_ffi.nix", "deep_eval")
 pub fn deep_eval(expression: a) -> a

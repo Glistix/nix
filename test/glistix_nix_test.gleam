@@ -1,5 +1,5 @@
 import gleeunit
-import nix
+import glistix/nix
 
 pub fn main() {
   gleeunit.main()

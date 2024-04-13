@@ -1,10 +1,10 @@
 //// Types and functions related to Nix derivations.
 
 import gleam/dynamic.{type Dynamic}
-import nix/array.{type Array}
-import nix/attrset.{type AttrSet}
-import nix/path.{type Path}
-import nix/system.{type System}
+import glistix/nix/array.{type Array}
+import glistix/nix/attrset.{type AttrSet}
+import glistix/nix/path.{type Path}
+import glistix/nix/system.{type System}
 
 /// A derivation in Nix is a special attribute set with building information
 /// as well as where it is to be stored in the Nix store.
@@ -68,7 +68,7 @@ pub fn new(
   do_new(name, system, builder, args, options)
 }
 
-@external(nix, "../nix_ffi.nix", "derivation_new")
+@external(nix, "../../nix_ffi.nix", "derivation_new")
 fn do_new(
   name: String,
   system: String,
@@ -80,5 +80,5 @@ fn do_new(
 /// Converts an attribute set, which is assumed to be a derivation already,
 /// to a derivation. If it is not a derivation, it will be cast into one
 /// (that is, it will receive the `type: "derivation"` attribute).
-@external(nix, "../nix_ffi.nix", "derivation_from_attrset")
+@external(nix, "../../nix_ffi.nix", "derivation_from_attrset")
 pub fn from_attrset(attrset: AttrSet(a)) -> Derivation

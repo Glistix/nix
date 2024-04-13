@@ -16,9 +16,9 @@ pub type Path
 /// from_string("./file.nix")
 /// // -> //nix(./file.nix)
 /// ```
-@external(nix, "../nix_ffi.nix", "path_from_string")
+@external(nix, "../../nix_ffi.nix", "path_from_string")
 pub fn from_string(string: String) -> Path
 
 /// Converts a path to a string form.
-@external(nix, "../nix_ffi.nix", "builtins_to_string")
+@external(nix, "../../nix_ffi.nix", "builtins_to_string")
 pub fn to_string(path: Path) -> String

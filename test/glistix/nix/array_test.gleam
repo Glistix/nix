@@ -1,5 +1,5 @@
 import gleeunit/should
-import nix/array
+import glistix/nix/array
 
 pub fn array_and_list_test() {
   let list = [Ok(1), Error(3), Ok(3)]

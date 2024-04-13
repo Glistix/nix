@@ -1,6 +1,6 @@
 //// Functions to access the outer environment.
 
-import nix/system.{type System}
+import glistix/nix/system.{type System}
 
 /// Accesses the current system, if available.
 /// It won't be available in pure evaluation mode,
@@ -19,7 +19,7 @@ pub fn current_system() -> Result(System, Nil) {
   }
 }
 
-@external(nix, "../nix_ffi.nix", "current_system")
+@external(nix, "../../nix_ffi.nix", "current_system")
 pub fn do_current_system() -> Result(String, Nil)
 
 /// Accesses the current Unix time in seconds since the epoch
@@ -35,7 +35,7 @@ pub fn do_current_system() -> Result(String, Nil)
 /// current_time()
 /// // -> Ok(1683705525)
 /// ```
-@external(nix, "../nix_ffi.nix", "current_time")
+@external(nix, "../../nix_ffi.nix", "current_time")
 pub fn current_time() -> Result(Int, Nil)
 
 /// Gets the value of an environment variable at evaluation time,
@@ -52,5 +52,5 @@ pub fn current_time() -> Result(Int, Nil)
 /// get_env(named: "VERY_MUCH_UNKNOWN")
 /// // -> Error(Nil)
 /// ```
-@external(nix, "../nix_ffi.nix", "get_env")
+@external(nix, "../../nix_ffi.nix", "get_env")
 pub fn get_env(named name: String) -> Result(String, Nil)

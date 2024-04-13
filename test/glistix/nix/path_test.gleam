@@ -1,5 +1,5 @@
 import gleeunit/should
-import nix/path
+import glistix/nix/path
 
 pub fn local_path_test() {
   path.from_string("abc")

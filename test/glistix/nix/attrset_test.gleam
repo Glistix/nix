@@ -1,7 +1,7 @@
 import gleam/dict
 import gleeunit/should
-import nix/array
-import nix/attrset
+import glistix/nix/array
+import glistix/nix/attrset
 
 pub fn attrset_init_test() {
   let set = attrset.new()
