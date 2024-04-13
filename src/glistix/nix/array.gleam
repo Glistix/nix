@@ -1,6 +1,6 @@
 //// Contains types and functions related to Nix's built-in lists (consisting of arrays).
 
-import gleam/result
+import gleam/iterator.{type Iterator, Done, Next}
 
 /// A Nix list. This is not a linked list, but rather a contiguous array.
 /// The fastest way to access values in this array is by index.
@@ -30,8 +30,29 @@ pub fn fold_right(
 ) -> b
 
 /// Get the element at the given index.
+///
+/// ## Examples
+///
+/// ```gleam
+/// get(from_list([1, 2, 3]), 0)
+/// // -> Ok(1)
+///
+/// get(from_list([1, 2, 3]), 2)
+/// // -> Ok(3)
+///
+/// get(from_list([1, 2, 3]), 3)
+/// // -> Error(Nil)
+/// ```
+pub fn get(array: Array(a), at index: Int) -> Result(a, Nil) {
+  case index >= 0 && index < size(array) {
+    True -> Ok(do_unsafe_get(array, index))
+    False -> Error(Nil)
+  }
+}
+
+/// Gets the element at the given index without checking.
 @external(nix, "../../nix_ffi.nix", "array_get")
-pub fn get(array: Array(a), at index: Int) -> Result(a, Nil)
+fn do_unsafe_get(array: Array(a), index: Int) -> a
 
 /// Returns a new array containing only the elements of the first array after
 /// the function has been applied to each one.
@@ -47,8 +68,7 @@ pub fn map(array: Array(a), with operator: fn(a) -> b) -> Array(b)
 pub fn index_map(array: Array(a), with operator: fn(Int, a) -> b) -> Array(b) {
   generate(size(array), with: fn(index) {
     array
-    |> get(at: index)
-    |> result.lazy_unwrap(or: fn() { panic as "Array size was already checked" })
+    |> do_unsafe_get(index)
     |> operator(index, _)
   })
 }
@@ -131,6 +151,29 @@ pub fn from_list(list: List(a)) -> Array(a)
 /// Runs in linear time.
 @external(nix, "../../nix_ffi.nix", "array_to_list")
 pub fn to_list(array: Array(a)) -> List(a)
+
+/// Converts a Gleam iterator to a Nix array.
+///
+/// Runs in linear time.
+pub fn from_iterator(iterator: Iterator(a)) -> Array(a) {
+  iterator
+  |> iterator.fold(from_list([]), fn(acc, elem) {
+    acc
+    |> append(from_list([elem]))
+  })
+}
+
+/// Converts a Nix array to a Gleam iterator.
+pub fn to_iterator(array: Array(a)) -> Iterator(a) {
+  let count = size(array)
+
+  iterator.unfold(from: 0, with: fn(i) {
+    case i == count {
+      True -> Done
+      False -> Next(do_unsafe_get(array, i), i + 1)
+    }
+  })
+}
 
 /// Generates an array with a specified length. Takes a function which specifies
 /// a value for each index in the new array.

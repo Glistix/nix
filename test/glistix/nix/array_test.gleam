@@ -1,3 +1,4 @@
+import gleam/iterator
 import gleeunit/should
 import glistix/nix/array
 
@@ -40,6 +41,44 @@ pub fn array_basic_ops_test() {
   |> array.append(array.from_list([Ok(100), Error(100)]))
   |> array.to_list
   |> should.equal([Ok(1), Error(3), Ok(3), Ok(100), Error(100)])
+}
+
+pub fn array_access_test() {
+  let empty = array.from_list([])
+
+  empty
+  |> array.get(-1)
+  |> should.be_error
+
+  empty
+  |> array.get(0)
+  |> should.be_error
+
+  empty
+  |> array.get(1)
+  |> should.be_error
+
+  let array = array.from_list([1, 2])
+
+  array
+  |> array.get(-1)
+  |> should.be_error
+
+  array
+  |> array.get(0)
+  |> should.equal(Ok(1))
+
+  array
+  |> array.get(1)
+  |> should.equal(Ok(2))
+
+  array
+  |> array.get(2)
+  |> should.be_error
+
+  array
+  |> array.get(2_324_234)
+  |> should.be_error
 }
 
 pub fn array_append_test() {
@@ -129,4 +168,17 @@ pub fn array_generate_test() {
   array.generate(4, with: fn(i) { 100 * i })
   |> array.to_list
   |> should.equal([0, 100, 200, 300])
+}
+
+pub fn array_iterator_conversion_test() {
+  [1, 2, 3, 4]
+  |> iterator.from_list
+  |> array.from_iterator
+  |> should.equal(array.from_list([1, 2, 3, 4]))
+
+  array.from_list([1, 2, 3, 4])
+  |> array.to_iterator
+  |> iterator.map(fn(x) { 2 * x })
+  |> iterator.to_list
+  |> should.equal([2, 4, 6, 8])
 }
