@@ -127,11 +127,11 @@ pub fn attrset_extract_lists_test() {
 
   set
   |> attrset.names
-  |> should.equal(["a", "b", "c"])
+  |> should.equal(array.from_list(["a", "b", "c"]))
 
   set
   |> attrset.values
-  |> should.equal([1, 2, 1])
+  |> should.equal(array.from_list([1, 2, 1]))
 
   set
   |> attrset.to_list

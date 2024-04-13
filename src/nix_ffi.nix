@@ -45,8 +45,8 @@ let
   attrset_map_values = set: fun: builtins.mapAttrs fun set;
   attrset_merge = a: b: a // b;
   attrset_intersect = a: b: builtins.intersectAttrs b a;
-  attrset_names = set: toList (builtins.attrNames set);
-  attrset_values = set: toList (builtins.attrValues set);
+  attrset_names = builtins.attrNames;
+  attrset_values = builtins.attrValues;
   attrset_from_array =
     attrs:
       let

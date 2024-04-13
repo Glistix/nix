@@ -46,12 +46,30 @@ pub fn merge(first: AttrSet(a), with second: AttrSet(a)) -> AttrSet(a)
 pub fn intersect(first: AttrSet(a), with second: AttrSet(b)) -> AttrSet(a)
 
 /// Obtains the list of attribute names in the given attribute set.
+/// Returns an `Array` as it uses `builtins.attrNames`. You can use
+/// `array.to_list` to convert to a `List`.
+///
+/// ## Examples
+///
+/// ```gleam
+/// from_list([#("a", 5), #("b", 6)]) |> names
+/// // -> array.from_list(["a", "b"])
+/// ```
 @external(nix, "../nix_ffi.nix", "attrset_names")
-pub fn names(in set: AttrSet(a)) -> List(String)
+pub fn names(in set: AttrSet(a)) -> Array(String)
 
 /// Obtains the list of values in the given attribute set.
+/// Returns an `Array` as it uses `builtins.attrValues`. You can use
+/// `array.to_list` to convert to a `List`.
+///
+/// ## Examples
+///
+/// ```gleam
+/// from_list([#("a", 5), #("b", 6)]) |> values
+/// // -> array.from_list([5, 6])
+/// ```
 @external(nix, "../nix_ffi.nix", "attrset_values")
-pub fn values(in set: AttrSet(a)) -> List(a)
+pub fn values(in set: AttrSet(a)) -> Array(a)
 
 /// Creates an attribute set from a list of `#(name, value)` pairs.
 ///
