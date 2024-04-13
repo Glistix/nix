@@ -126,6 +126,16 @@ pub fn array_contains_test() {
   |> should.be_false()
 }
 
+pub fn array_filter_test() {
+  array.from_list([2, 3, 4, 5])
+  |> array.filter(keeping: fn(x) { x > 3 })
+  |> should.equal(array.from_list([4, 5]))
+
+  array.from_list([2, 3, 4, 5])
+  |> array.filter(keeping: fn(x) { x < 1 })
+  |> should.equal(array.from_list([]))
+}
+
 pub fn array_sort_test() {
   array.from_list([3, 10, 4, 32])
   |> array.sort(by: fn(a, b) { b < a })

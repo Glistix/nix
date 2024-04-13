@@ -83,6 +83,21 @@ pub fn size(array: Array(a)) -> Int
 @external(nix, "../../nix_ffi.nix", "array_contains")
 pub fn contains(array: Array(a), any elem: a) -> Bool
 
+/// Filters the array, returning a new array containing only the elements
+/// for which the predicate function returned `True`.
+///
+/// ## Examples
+///
+/// ```gleam
+/// filter(from_list([2, 3, 4, 5]), keeping: fn(x) { x > 3 })
+/// // -> from_list([4, 5])
+///
+/// filter(from_list([2, 3, 4, 5]), keeping: fn(x) { x < 1 })
+/// // -> from_list([])
+/// ```
+@external(nix, "../../nix_ffi.nix", "array_filter")
+pub fn filter(array: Array(a), keeping predicate: fn(a) -> Bool) -> Array(a)
+
 /// Joins the second array to the end of the first using Nix's
 /// built-in `++` operator.
 ///
