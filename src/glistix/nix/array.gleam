@@ -254,6 +254,34 @@ pub fn partition(
   with categorise: fn(a) -> Bool,
 ) -> #(Array(a), Array(a))
 
+/// Splits an array in two before the given index.
+/// If the array isn't long enough to contain that index,
+/// the first returned array will be equal to the full given
+/// array, and the second returned array will be empty.
+///
+/// ## Examples
+///
+/// ```gleam
+/// split(from_list([12, 34, 56]), at: 0)
+/// // -> #(from_list([]), from_list([12, 34, 56]))
+///
+/// split(from_list([12, 34, 56]), at: 1)
+/// // -> #(from_list([12]), from_list([34, 56]))
+///
+/// split(from_list([12, 34, 56]), at: 3)
+/// // -> #(from_list([12, 34, 56]), from_list([]))
+/// ```
+pub fn split(array: Array(a), at index: Int) -> #(Array(a), Array(a)) {
+  let size = size(array)
+  case index < size {
+    True -> #(
+      generate(index, with: fn(i) { do_unsafe_get(array, i) }),
+      generate(size - index, with: fn(i) { do_unsafe_get(array, i + index) }),
+    )
+    False -> #(array, from_list([]))
+  }
+}
+
 /// Checks if the predicate is satisfied for all elements in the array,
 /// returning `True` if the function returns `True` for all elements,
 /// or `False` if it returned `False` for at least one element.

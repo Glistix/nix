@@ -203,6 +203,20 @@ pub fn array_partition_test() {
   |> should.equal(#(array.from_list([10, 32]), array.from_list([3, 4])))
 }
 
+pub fn array_split_test() {
+  array.from_list([12, 34, 56, 78])
+  |> array.split(at: 0)
+  |> should.equal(#(array.from_list([]), array.from_list([12, 34, 56, 78])))
+
+  array.from_list([12, 34, 56, 78])
+  |> array.split(at: 1)
+  |> should.equal(#(array.from_list([12]), array.from_list([34, 56, 78])))
+
+  array.from_list([12, 34, 56, 78])
+  |> array.split(at: 4)
+  |> should.equal(#(array.from_list([12, 34, 56, 78]), array.from_list([])))
+}
+
 pub fn array_all_any_test() {
   let arr = array.from_list([1, 2, 3, 4])
 
