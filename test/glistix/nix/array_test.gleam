@@ -1,6 +1,7 @@
 import gleam/float
 import gleam/int
 import gleam/iterator
+import gleam/order
 import gleam/result
 import gleeunit/should
 import glistix/nix/array
@@ -186,12 +187,12 @@ pub fn array_filter_test() {
 
 pub fn array_sort_test() {
   array.from_list([3, 10, 4, 32])
-  |> array.sort(by: fn(a, b) { b < a })
+  |> array.sort(by: order.reverse(int.compare))
   |> array.to_list
   |> should.equal([32, 10, 4, 3])
 
   array.from_list([3, 10, 4, 32])
-  |> array.sort(by: fn(a, b) { a < b })
+  |> array.sort(by: int.compare)
   |> array.to_list
   |> should.equal([3, 4, 10, 32])
 }

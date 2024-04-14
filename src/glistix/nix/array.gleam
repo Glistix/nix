@@ -1,6 +1,7 @@
 //// Contains types and functions related to Nix's built-in lists (consisting of arrays).
 
 import gleam/iterator.{type Iterator, Done, Next}
+import gleam/order.{type Order}
 
 /// A Nix list. This is not a linked list, but rather a contiguous array.
 /// The fastest way to access values in this array is by index.
@@ -217,13 +218,31 @@ pub fn flatten(arrays: Array(Array(a))) -> Array(a) {
   concat(arrays)
 }
 
-/// Sorts an array using the built-in `sort` function.
-/// The comparator should return `True` if the first element is considered
-/// 'less' than the second, and `False` otherwise.
+/// Sorts an array using the built-in `sort` function through
+/// the given comparator. Sorts in ascending order by default,
+/// but the order can be reversed through `order.reverse`
+/// in the standard library.
+///
 /// This uses a stable sort algorithm, meaning elements which compare equal
 /// preserve their relative order.
+///
+/// ## Examples
+///
+/// ```gleam
+/// sort(from_list([3, 10, 4, 32]), by: int.compare)
+/// // -> from_list([32, 10, 4, 3])
+///
+/// sort(from_list([3, 10, 4, 32]), by: order.reverse(int.compare))
+/// // -> from_list([3, 4, 10, 32])
+/// ```
+pub fn sort(array: Array(a), by compare: fn(a, a) -> Order) -> Array(a) {
+  do_sort(array, fn(a, b) { compare(a, b) == order.Lt })
+}
+
+/// The compare function must return True if the first element is less than the
+/// second.
 @external(nix, "../../nix_ffi.nix", "array_sort")
-pub fn sort(array: Array(a), by compare: fn(a, a) -> Bool) -> Array(a)
+pub fn do_sort(array: Array(a), compare: fn(a, a) -> Bool) -> Array(a)
 
 /// Partitions an array's elements into a pair of arrays based on the output
 /// of the given function. The first array returned includes elements for which
