@@ -237,6 +237,16 @@ pub fn array_all_any_test() {
   |> should.be_false
 }
 
+pub fn array_unzip_test() {
+  array.from_list([#(1, 2), #(3, 4)])
+  |> array.unzip
+  |> should.equal(#(array.from_list([1, 3]), array.from_list([2, 4])))
+
+  array.from_list([])
+  |> array.unzip
+  |> should.equal(#(array.from_list([]), array.from_list([])))
+}
+
 pub fn array_generate_test() {
   array.generate(4, with: fn(i) { 100 * i })
   |> array.to_list

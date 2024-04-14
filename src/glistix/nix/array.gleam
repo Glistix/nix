@@ -294,6 +294,21 @@ pub fn all(in array: Array(a), satisfying predicate: fn(a) -> Bool) -> Bool
 @external(nix, "../../nix_ffi.nix", "array_any")
 pub fn any(in array: Array(a), satisfying predicate: fn(a) -> Bool) -> Bool
 
+/// Takes an array of 2-element tuples and returns two arrays.
+///
+/// ## Examples
+///
+/// ```gleam
+/// unzip(from_list([#(1, 2), #(3, 4)]))
+/// // -> #(from_list([1, 3]), from_list([2, 4]))
+///
+/// unzip([])
+/// // -> #(from_list([]), from_list([]))
+/// ```
+pub fn unzip(input: Array(#(a, b))) -> #(Array(a), Array(b)) {
+  #(map(input, fn(pair) { pair.0 }), map(input, fn(pair) { pair.1 }))
+}
+
 /// Converts a Gleam list to a Nix array.
 ///
 /// Runs in linear time, and is recursive, so large lists can cause a stack overflow.
