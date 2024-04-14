@@ -217,6 +217,17 @@ pub fn array_split_test() {
   |> should.equal(#(array.from_list([12, 34, 56, 78]), array.from_list([])))
 }
 
+pub fn array_slice_test() {
+  array.slice(from: array.from_list([1, 2, 3, 4]), at: 1, take: 2)
+  |> should.equal(Ok(array.from_list([2, 3])))
+
+  array.slice(from: array.from_list([1, 2, 3, 4]), at: 4, take: -3)
+  |> should.equal(Ok(array.from_list([2, 3, 4])))
+
+  array.slice(from: array.from_list([]), at: 1, take: 2)
+  |> should.equal(Error(Nil))
+}
+
 pub fn array_all_any_test() {
   let arr = array.from_list([1, 2, 3, 4])
 

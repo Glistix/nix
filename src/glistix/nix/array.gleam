@@ -1,5 +1,6 @@
 //// Contains types and functions related to Nix's built-in lists (consisting of arrays).
 
+import gleam/int
 import gleam/iterator.{type Iterator, Done, Next}
 import gleam/order.{type Order}
 
@@ -279,6 +280,41 @@ pub fn split(array: Array(a), at index: Int) -> #(Array(a), Array(a)) {
       generate(size - index, with: fn(i) { do_unsafe_get(array, i + index) }),
     )
     False -> #(array, from_list([]))
+  }
+}
+
+/// Takes a specific portion of an array, slicing from the given
+/// position and stopping after the given length, generating a new array.
+/// Negative lengths can be used to take from the end of the array.
+/// If the slicing would go out of bounds, returns an error.
+///
+/// ## Examples
+///
+/// ```gleam
+/// slice(from: from_list([1, 2, 3, 4]), at: 1, take: 2)
+/// // -> Ok(from_list([2, 3]))
+///
+/// slice(from: from_list([1, 2, 3, 4]), at: 4, take: -3)
+/// // -> Ok(from_list([2, 3, 4]))
+///
+/// slice(from: from_list([]), at: 1, take: 2)
+/// // -> Error(Nil)
+/// ```
+pub fn slice(
+  from array: Array(a),
+  at position: Int,
+  take length: Int,
+) -> Result(Array(a), Nil) {
+  let start = int.min(position, position + length)
+  let end = int.max(position, position + length)
+  case start < 0 || end > size(array) {
+    True -> Error(Nil)
+    False ->
+      Ok(
+        generate(int.absolute_value(length), with: fn(i) {
+          do_unsafe_get(array, i + start)
+        }),
+      )
   }
 }
 
