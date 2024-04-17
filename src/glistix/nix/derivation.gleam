@@ -1,71 +1,43 @@
 //// Types and functions related to Nix derivations.
 
-import gleam/dynamic.{type Dynamic}
+import gleam/dynamic
 import glistix/nix/array.{type Array}
 import glistix/nix/attrset.{type AttrSet}
-import glistix/nix/path.{type Path}
+import glistix/nix/path_like.{type PathLike, NixPath, StringPath}
 import glistix/nix/system.{type System}
 
 /// A derivation in Nix is a special attribute set with building information
 /// as well as where it is to be stored in the Nix store.
 pub type Derivation
 
-pub type BuilderPath {
-  /// Use a builder from a path which will reside in the Nix store.
-  StorePath(Path)
-  /// Use a builder from an arbitrary path in the system.
-  ArbitraryPath(String)
-}
-
-/// Extra derivation creation options.
-/// When multiple of the same option are specified,
-/// the last one wins.
-pub type ExtraOption {
-  Outputs(List(String))
-}
-
-fn convert_extra_options(options: List(ExtraOption)) -> List(#(String, Dynamic)) {
-  case options {
-    [] -> []
-    [Outputs(outs), ..rest] -> [
-      #(
-        "outputs",
-        outs
-          |> array.from_list
-          |> dynamic.from,
-      ),
-      ..convert_extra_options(rest)
-    ]
-  }
+/// A derivation's builder program, and the args to call it with.
+/// Not to be confused with the `DerivationBuilder` type.
+pub type Builder {
+  Builder(path: PathLike, args: List(String))
 }
 
 /// Creates a new derivation.
+/// Use a `DerivationBuilder` to specify more options.
 ///
 /// Please refer to the NixOS manual, at https://nixos.org/manual/nix/stable/language/derivations,
 /// to learn more about these options.
 pub fn new(
   named name: String,
   on system: System,
-  using builder: BuilderPath,
-  with args: List(String),
-  and_with options: List(ExtraOption),
+  using builder: Builder,
 ) -> Derivation {
   let system = system.to_string(system)
 
-  let builder = case builder {
-    StorePath(path) -> dynamic.from(path)
-    ArbitraryPath(path) -> dynamic.from(path)
+  let builder_path = case builder.path {
+    NixPath(path) -> dynamic.from(path)
+    StringPath(path) -> dynamic.from(path)
   }
 
   let args =
-    args
+    builder.args
     |> array.from_list
 
-  let options =
-    convert_extra_options(options)
-    |> attrset.from_list
-
-  do_new(name, system, builder, args, options)
+  do_new(name, system, builder_path, args, attrset.new())
 }
 
 @external(nix, "../../nix_ffi.nix", "derivation_new")
