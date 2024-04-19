@@ -248,6 +248,17 @@ pub fn array_all_any_test() {
   |> should.be_false
 }
 
+pub fn array_zip_test() {
+  array.zip(array.from_list([1, 3]), array.from_list([2, 4]))
+  |> should.equal(array.from_list([#(1, 2), #(3, 4)]))
+
+  array.zip(array.from_list([1, 2]), array.from_list([3]))
+  |> should.equal(array.from_list([#(1, 3)]))
+
+  array.zip(array.from_list([1, 2]), array.from_list([]))
+  |> should.equal(array.from_list([]))
+}
+
 pub fn array_unzip_test() {
   array.from_list([#(1, 2), #(3, 4)])
   |> array.unzip

@@ -330,6 +330,33 @@ pub fn all(in array: Array(a), satisfying predicate: fn(a) -> Bool) -> Bool
 @external(nix, "../../nix_ffi.nix", "array_any")
 pub fn any(in array: Array(a), satisfying predicate: fn(a) -> Bool) -> Bool
 
+/// Combines two arrays into an array of 2-element tuples, where the tuple at
+/// position 'i' contains element 'i' from the first array and element 'i' from
+/// the second array.
+///
+/// If one array is longer than the other, the returned array will have the
+/// size of the shortest, with the longer array's extra items being ignored.
+///
+/// ## Examples
+///
+/// ```gleam
+/// zip(from_list([1, 2]), from_list([3, 4]))
+/// // -> from_list([#(1, 3), #(2, 4)])
+///
+/// zip(from_list([1, 2]), from_list([3]))
+/// // -> from_list([#(1, 3)])
+///
+/// zip(from_list([1, 2]), from_list([]))
+/// // -> from_list([])
+/// ```
+pub fn zip(first: Array(a), with second: Array(b)) -> Array(#(a, b)) {
+  let len = int.min(size(first), size(second))
+
+  generate(len, with: fn(i) {
+    #(do_unsafe_get(first, i), do_unsafe_get(second, i))
+  })
+}
+
 /// Takes an array of 2-element tuples and returns two arrays.
 ///
 /// ## Examples
