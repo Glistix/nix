@@ -510,6 +510,46 @@ pub fn slice(
   }
 }
 
+/// Splits an array's elements into chunks of fixed size.
+/// If the chunk size doesn't evenly divide the array length,
+/// the last chunk will be incomplete, containing only the
+/// remaining elements.
+///
+/// Specifying a chunk size smaller than 1 is the same as
+/// specifying 1.
+///
+/// ## Examples
+///
+/// ```gleam
+/// from_list([1, 2, 3, 4, 5, 6]) |> sized_chunk(into: 2)
+/// // -> from_list([from_list([1, 2]), from_list([3, 4]), from_list([5, 6])])
+///
+/// from_list([1, 2, 3, 4, 5, 6, 7, 8]) |> sized_chunk(into: 3)
+/// // -> from_list([from_list([1, 2, 3]), from_list([4, 5, 6]), from_list([7, 8])])
+/// ```
+pub fn sized_chunk(in array: Array(a), into count: Int) -> Array(Array(a)) {
+  case count > 1 {
+    True -> {
+      let len = size(array)
+      let full_chunks = len / count
+      let incomplete_chunks = case len % count {
+        0 -> 0
+        _ -> 1
+      }
+      generate(full_chunks + incomplete_chunks, fn(i) {
+        let start = count * i
+        let size = case i == full_chunks {
+          True -> len - start
+          False -> count
+        }
+
+        generate(size, fn(i) { do_unsafe_get(array, start + i) })
+      })
+    }
+    False -> map(array, single)
+  }
+}
+
 /// Transpose rows and columns of the array of arrays.
 ///
 /// Traverses the array once to determine the amount of columns,

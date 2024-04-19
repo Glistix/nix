@@ -316,6 +316,82 @@ pub fn array_slice_test() {
   |> should.equal(Error(Nil))
 }
 
+pub fn array_sized_chunk_test() {
+  array.from_list([1, 2, 3, 4, 5, 6])
+  |> array.sized_chunk(into: 2)
+  |> should.equal(
+    array.from_list([
+      array.from_list([1, 2]),
+      array.from_list([3, 4]),
+      array.from_list([5, 6]),
+    ]),
+  )
+
+  array.from_list([1, 2, 3, 4, 5, 6, 7])
+  |> array.sized_chunk(into: 3)
+  |> should.equal(
+    array.from_list([
+      array.from_list([1, 2, 3]),
+      array.from_list([4, 5, 6]),
+      array.from_list([7]),
+    ]),
+  )
+
+  array.from_list([1, 2, 3, 4, 5, 6, 7, 8])
+  |> array.sized_chunk(into: 3)
+  |> should.equal(
+    array.from_list([
+      array.from_list([1, 2, 3]),
+      array.from_list([4, 5, 6]),
+      array.from_list([7, 8]),
+    ]),
+  )
+
+  array.from_list([1, 2, 3])
+  |> array.sized_chunk(into: 3)
+  |> should.equal(array.from_list([array.from_list([1, 2, 3])]))
+
+  array.from_list([1, 2, 3])
+  |> array.sized_chunk(into: 4)
+  |> should.equal(array.from_list([array.from_list([1, 2, 3])]))
+
+  array.from_list([1, 2, 3])
+  |> array.sized_chunk(into: 2)
+  |> should.equal(
+    array.from_list([array.from_list([1, 2]), array.from_list([3])]),
+  )
+
+  array.from_list([1, 2, 3])
+  |> array.sized_chunk(into: 1)
+  |> should.equal(
+    array.from_list([
+      array.from_list([1]),
+      array.from_list([2]),
+      array.from_list([3]),
+    ]),
+  )
+
+  array.from_list([1, 2, 3])
+  |> array.sized_chunk(into: 0)
+  |> should.equal(
+    array.from_list([
+      array.from_list([1]),
+      array.from_list([2]),
+      array.from_list([3]),
+    ]),
+  )
+
+  array.from_list([1, 2, 3])
+  |> array.sized_chunk(into: -1)
+  |> should.equal(
+    array.from_list([
+      array.from_list([1]),
+      array.from_list([2]),
+      array.from_list([3]),
+    ]),
+  )
+}
+
 pub fn array_transpose_test() {
   array.from_list([
     array.from_list([1, 2, 3]),
