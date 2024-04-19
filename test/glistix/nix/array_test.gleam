@@ -117,11 +117,19 @@ pub fn array_fold_test() {
   |> should.equal(6)
 }
 
+pub fn array_index_fold_test() {
+  array.from_list([1, 2, 3])
+  |> array.index_fold(from: #(0, []), with: fn(acc, elem, index) {
+    #(acc.0 + elem, [index, ..acc.1])
+  })
+  |> should.equal(#(6, [2, 1, 0]))
+}
+
 pub fn array_index_map_test() {
   array.from_list(["a", "b", "c"])
-  |> array.index_map(with: fn(index, element) { #(index, element) })
+  |> array.index_map(with: fn(element, index) { #(element, index) })
   |> array.to_list
-  |> should.equal([#(0, "a"), #(1, "b"), #(2, "c")])
+  |> should.equal([#("a", 0), #("b", 1), #("c", 2)])
 }
 
 pub fn array_flat_map_test() {

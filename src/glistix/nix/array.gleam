@@ -15,10 +15,10 @@ pub type Array(element)
 /// Runs in linear time, and is strict (uses the `foldl'` built-in).
 @external(nix, "../../nix_ffi.nix", "array_fold")
 pub fn fold(
-  over array: Array(a),
-  from init: b,
-  with operator: fn(b, a) -> b,
-) -> b
+  over array: Array(item),
+  from init: acc,
+  with operator: fn(acc, item) -> acc,
+) -> acc
 
 /// Reduces a list of elements into a single value by calling a given function
 /// on each element, going from end to start.
@@ -26,10 +26,10 @@ pub fn fold(
 /// Runs in linear time, and is lazy and recursive, so large arrays can cause a stack overflow.
 @external(nix, "../../nix_ffi.nix", "array_fold_right")
 pub fn fold_right(
-  over array: Array(a),
-  from init: b,
-  with operator: fn(b, a) -> b,
-) -> b
+  over array: Array(item),
+  from init: acc,
+  with operator: fn(acc, item) -> acc,
+) -> acc
 
 /// Get the element at the given index.
 ///
@@ -63,18 +63,36 @@ fn do_unsafe_get(array: Array(a), index: Int) -> a
 @external(nix, "../../nix_ffi.nix", "array_map")
 pub fn map(over array: Array(a), with operator: fn(a) -> b) -> Array(b)
 
+/// Similar to `fold`, but the function receives each element's
+/// index alongside the accumulator and the element.
+///
+/// Runs in linear time and is strict.
+pub fn index_fold(
+  over array: Array(item),
+  from initial: acc,
+  with operator: fn(acc, item, Int) -> acc,
+) -> acc {
+  let #(result, _) =
+    fold(over: array, from: #(initial, 0), with: fn(acc, item) {
+      let #(acc, index) = acc
+      #(operator(acc, item, index), index + 1)
+    })
+
+  result
+}
+
 /// Similar to `map`, but the function receives each element
 /// as well as its index.
 ///
 /// Runs in linear time.
 pub fn index_map(
   over array: Array(a),
-  with operator: fn(Int, a) -> b,
+  with operator: fn(a, Int) -> b,
 ) -> Array(b) {
   generate(size(array), with: fn(index) {
     array
     |> do_unsafe_get(index)
-    |> operator(index, _)
+    |> operator(index)
   })
 }
 
