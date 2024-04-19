@@ -3,7 +3,6 @@ import gleam/dynamic.{type Dynamic}
 import glistix/nix/array.{type Array}
 import glistix/nix/attrset.{type AttrSet}
 import glistix/nix/derivation.{type Builder, type Derivation}
-import glistix/nix/derivation/fixed_output.{type HashAlgorithm, type HashMode}
 import glistix/nix/path_like.{NixPath, StringPath}
 import glistix/nix/system.{type System}
 
@@ -66,32 +65,6 @@ pub fn with_outputs(
   let options =
     derivation.options
     |> attrset.set("outputs", outputs)
-
-  DerivationBuilder(..derivation, options: options)
-}
-
-/// Specifies attributes which define this derivation as
-/// a fixed-output derivation. That is, its output is
-/// validated against a previously-known hash.
-pub fn with_fixed_output(
-  derivation: DerivationBuilder(name, system, builder),
-  hash hash: String,
-  algorithm hash_algorithm: HashAlgorithm,
-  mode hash_mode: HashMode,
-) -> DerivationBuilder(name, system, builder) {
-  let hash_mode =
-    hash_mode
-    |> fixed_output.mode_to_string
-
-  let hash_algorithm =
-    hash_algorithm
-    |> fixed_output.algorithm_to_string
-
-  let options =
-    derivation.options
-    |> attrset.set("outputHash", dynamic.from(hash))
-    |> attrset.set("outputHashAlgo", dynamic.from(hash_algorithm))
-    |> attrset.set("outputHashMode", dynamic.from(hash_mode))
 
   DerivationBuilder(..derivation, options: options)
 }
