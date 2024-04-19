@@ -185,6 +185,16 @@ pub fn array_filter_test() {
   |> should.equal(array.from_list([]))
 }
 
+pub fn array_reverse_test() {
+  array.from_list([1, 2, 3, 4])
+  |> array.reverse
+  |> should.equal(array.from_list([4, 3, 2, 1]))
+
+  array.from_list([])
+  |> array.reverse
+  |> should.equal(array.from_list([]))
+}
+
 pub fn array_sort_test() {
   array.from_list([3, 10, 4, 32])
   |> array.sort(by: order.reverse(int.compare))

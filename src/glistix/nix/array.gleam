@@ -219,6 +219,23 @@ pub fn flatten(arrays: Array(Array(a))) -> Array(a) {
   concat(arrays)
 }
 
+/// Reverses the array, returning a new array with its elements in the opposite
+/// order as the given array.
+///
+/// Runs in linear time.
+///
+/// ## Examples
+///
+/// ```gleam
+/// reverse(from_list([1, 2, 3, 4]))
+/// // -> from_list([4, 3, 2, 1])
+/// ```
+pub fn reverse(array: Array(a)) -> Array(a) {
+  let len = size(array)
+
+  generate(len, fn(i) { do_unsafe_get(array, len - 1 - i) })
+}
+
 /// Sorts an array using the built-in `sort` function through
 /// the given comparator. Sorts in ascending order by default,
 /// but the order can be reversed through `order.reverse`
