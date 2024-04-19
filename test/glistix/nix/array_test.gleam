@@ -253,6 +253,16 @@ pub fn array_find_map_test() {
   |> should.be_error
 }
 
+pub fn array_reduce_test() {
+  array.from_list([1, 2, 3])
+  |> array.reduce(with: fn(a, b) { a + b })
+  |> should.equal(Ok(6))
+
+  array.from_list([])
+  |> array.reduce(with: fn(a, b) { a + b })
+  |> should.be_error
+}
+
 pub fn array_reverse_test() {
   array.from_list([1, 2, 3, 4])
   |> array.reverse

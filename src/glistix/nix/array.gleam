@@ -368,6 +368,32 @@ pub fn find_map(
   })
 }
 
+/// Similar to `fold`, but the initial value of the accumulator is the first
+/// element in the array. Returns `Error(Nil)` if the array was empty.
+///
+/// ## Examples
+///
+/// ```gleam
+/// reduce(over: from_list([1, 2, 3]), with: fn(a, b) { a + b })
+/// // -> Ok(6)
+///
+/// reduce(over: from_list([]), with: fn(a, b) { a + b })
+/// // -> Error(Nil)
+/// ```
+pub fn reduce(
+  over array: Array(a),
+  with operator: fn(a, a) -> a,
+) -> Result(a, Nil) {
+  fold(over: array, from: Error(Nil), with: fn(acc, elem) {
+    // Ensure we skip the first element upon folding.
+    // Folding over `rest(array)` instead would be expensive.
+    case acc {
+      Ok(acc) -> Ok(operator(acc, elem))
+      Error(_) -> Ok(elem)
+    }
+  })
+}
+
 /// Reverses the array, returning a new array with its elements in the opposite
 /// order as the given array.
 ///
