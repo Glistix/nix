@@ -15,7 +15,7 @@ pub fn new() -> Array(a)
 
 /// Creates an array with one element.
 ///
-/// # Examples
+/// ## Examples
 ///
 /// ```gleam
 /// single(5)
