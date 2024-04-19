@@ -484,6 +484,31 @@ pub fn slice(
   }
 }
 
+/// Transpose rows and columns of the array of arrays.
+///
+/// Traverses the array once to determine the amount of columns,
+/// and then traverses again for each column.
+///
+/// ## Examples
+///
+/// ```gleam
+/// transpose(from_list([from_list([1, 2, 3]), from_list([4, 5, 6]), from_list([7, 8, 9])]))
+/// // -> from_list([from_list([1, 4, 7]), from_list([2, 5, 8]), from_list(3, 6, 9)])
+/// ```
+pub fn transpose(rows: Array(Array(a))) -> Array(Array(a)) {
+  let columns =
+    fold(over: rows, from: 0, with: fn(acc, row) {
+      row
+      |> size
+      |> int.max(acc)
+    })
+
+  generate(columns, with: fn(i) {
+    rows
+    |> filter_map(with: fn(row) { get(row, i) })
+  })
+}
+
 /// Checks if the predicate is satisfied for all elements in the array,
 /// returning `True` if the function returns `True` for all elements,
 /// or `False` if it returned `False` for at least one element.

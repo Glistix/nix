@@ -306,6 +306,42 @@ pub fn array_slice_test() {
   |> should.equal(Error(Nil))
 }
 
+pub fn array_transpose_test() {
+  array.from_list([
+    array.from_list([1, 2, 3]),
+    array.from_list([4, 5, 6]),
+    array.from_list([7, 8, 9]),
+  ])
+  |> array.transpose
+  |> should.equal(
+    array.from_list([
+      array.from_list([1, 4, 7]),
+      array.from_list([2, 5, 8]),
+      array.from_list([3, 6, 9]),
+    ]),
+  )
+
+  array.from_list([
+    array.from_list([]),
+    array.from_list([1]),
+    array.from_list([2, 3]),
+    array.from_list([4, 5, 6]),
+    array.from_list([7, 8, 9]),
+  ])
+  |> array.transpose
+  |> should.equal(
+    array.from_list([
+      array.from_list([1, 2, 4, 7]),
+      array.from_list([3, 5, 8]),
+      array.from_list([6, 9]),
+    ]),
+  )
+
+  array.from_list([])
+  |> array.transpose
+  |> should.equal(array.from_list([]))
+}
+
 pub fn array_all_any_test() {
   let arr = array.from_list([1, 2, 3, 4])
 
