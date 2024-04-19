@@ -193,6 +193,16 @@ pub fn array_filter_test() {
   |> should.equal(array.from_list([]))
 }
 
+pub fn array_find_test() {
+  array.from_list([2, 3, 4, 5])
+  |> array.find(one_that: fn(x) { x > 3 })
+  |> should.equal(Ok(4))
+
+  array.from_list([2, 3, 4, 5])
+  |> array.find(one_that: fn(x) { x < 1 })
+  |> should.equal(Error(Nil))
+}
+
 pub fn array_reverse_test() {
   array.from_list([1, 2, 3, 4])
   |> array.reverse

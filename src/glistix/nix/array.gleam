@@ -237,6 +237,39 @@ pub fn flatten(arrays: Array(Array(a))) -> Array(a) {
   concat(arrays)
 }
 
+/// Finds the first element in the array for which the function returns `True`.
+///
+/// If no such element exists, returns `Error(Nil)`.
+///
+/// Note that, currently, this will always traverse the whole array.
+///
+/// ## Examples
+///
+/// ```gleam
+/// find(from_list([1, 2, 3, 4, 5]), fn(x) { x > 3 })
+/// // -> Ok(4)
+///
+/// find(from_list([10]), fn(x) { x == 5 })
+/// // -> Error(Nil)
+/// ```
+pub fn find(
+  in array: Array(a),
+  one_that is_desired: fn(a) -> Bool,
+) -> Result(a, Nil) {
+  // Folding will be the most efficient way for now while we don't have tail-call
+  // optimization. See also nixpkgs' `lib/lists.nix`
+  fold(over: array, from: Error(Nil), with: fn(found, item) {
+    case found {
+      Ok(_) -> found
+      Error(_) ->
+        case is_desired(item) {
+          True -> Ok(item)
+          False -> found
+        }
+    }
+  })
+}
+
 /// Reverses the array, returning a new array with its elements in the opposite
 /// order as the given array.
 ///
