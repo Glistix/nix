@@ -393,6 +393,17 @@ pub fn array_unzip_test() {
   |> should.equal(#(array.from_list([]), array.from_list([])))
 }
 
+pub fn array_range_test() {
+  array.range(0, 0)
+  |> should.equal(array.from_list([0]))
+
+  array.range(0, 5)
+  |> should.equal(array.from_list([0, 1, 2, 3, 4, 5]))
+
+  array.range(1, -5)
+  |> should.equal(array.from_list([1, 0, -1, -2, -3, -4, -5]))
+}
+
 pub fn array_generate_test() {
   array.generate(4, with: fn(i) { 100 * i })
   |> array.to_list

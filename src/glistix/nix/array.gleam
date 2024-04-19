@@ -589,6 +589,29 @@ pub fn unzip(input: Array(#(a, b))) -> #(Array(a), Array(b)) {
   #(map(input, fn(pair) { pair.0 }), map(input, fn(pair) { pair.1 }))
 }
 
+/// Creates an array of integers from start to finish, inclusive.
+///
+/// ## Examples
+///
+/// ```gleam
+/// range(0, 0)
+/// // -> from_list([0])
+///
+/// range(0, 5)
+/// // -> from_list([0, 1, 2, 3, 4, 5])
+///
+/// range(1, -5)
+/// // -> from_list([1, 0, -1, -2, -3, -4, -5])
+/// ```
+pub fn range(from start: Int, to stop: Int) -> Array(Int) {
+  let step = case start <= stop {
+    True -> 1
+    False -> -1
+  }
+
+  generate(1 + int.absolute_value(stop - start), fn(i) { start + step * i })
+}
+
 /// Converts a Gleam list to a Nix array.
 ///
 /// Runs in linear time, and is recursive, so large lists can cause a stack overflow.
