@@ -209,6 +209,43 @@ fn do_unsafe_rest(array: Array(a)) -> Array(a)
 @external(nix, "../../nix_ffi.nix", "array_filter")
 pub fn filter(array: Array(a), keeping predicate: fn(a) -> Bool) -> Array(a)
 
+/// Filters the array, returning a new array containing only the elements
+/// for which the given function returned `Ok(new_value)`, replacing each
+/// with `new_value`.
+///
+/// ## Examples
+///
+/// ```gleam
+/// filter_map(
+///   from_list([#(1, True), #(2, False), #(3, False), #(4, True)]),
+///   with: fn(x) {
+///     case x {
+///       #(value, True) -> Ok(value)
+///       #(_, False) -> Error(Nil)
+///     }
+///   }
+/// )
+/// // -> from_list([1, 4])
+///
+/// filter_map(from_list([2, 3, 4, 5]), with: Error)
+/// // -> from_list([])
+///
+/// filter_map(from_list([2, 3, 4, 5]), with: fn(x) { Ok(x + 1) })
+/// // -> from_list([3, 4, 5, 6])
+/// ```
+pub fn filter_map(
+  array: Array(a),
+  with operator: fn(a) -> Result(b, c),
+) -> Array(b) {
+  array
+  |> flat_map(with: fn(element) {
+    case operator(element) {
+      Ok(new_value) -> single(new_value)
+      Error(_) -> new()
+    }
+  })
+}
+
 /// Joins the second array to the end of the first using Nix's
 /// built-in `++` operator.
 ///

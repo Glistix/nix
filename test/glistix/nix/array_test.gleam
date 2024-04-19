@@ -201,6 +201,25 @@ pub fn array_filter_test() {
   |> should.equal(array.from_list([]))
 }
 
+pub fn array_filter_map_test() {
+  array.from_list([#(1, True), #(2, False), #(3, False), #(4, True)])
+  |> array.filter_map(with: fn(x) {
+    case x {
+      #(value, True) -> Ok(value)
+      #(_, False) -> Error(Nil)
+    }
+  })
+  |> should.equal(array.from_list([1, 4]))
+
+  array.from_list([2, 3, 4, 5])
+  |> array.filter_map(with: Error)
+  |> should.equal(array.from_list([]))
+
+  array.from_list([2, 3, 4, 5])
+  |> array.filter_map(with: fn(x) { Ok(x + 1) })
+  |> should.equal(array.from_list([3, 4, 5, 6]))
+}
+
 pub fn array_find_test() {
   array.from_list([2, 3, 4, 5])
   |> array.find(one_that: fn(x) { x > 3 })
