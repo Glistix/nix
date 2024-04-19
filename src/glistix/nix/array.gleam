@@ -435,7 +435,7 @@ pub fn sort(array: Array(a), by compare: fn(a, a) -> Order) -> Array(a) {
 /// The compare function must return True if the first element is less than the
 /// second.
 @external(nix, "../../nix_ffi.nix", "array_sort")
-pub fn do_sort(array: Array(a), compare: fn(a, a) -> Bool) -> Array(a)
+fn do_sort(array: Array(a), compare: fn(a, a) -> Bool) -> Array(a)
 
 /// Partitions an array's elements into a pair of arrays based on the output
 /// of the given function. The first array returned includes elements for which
