@@ -270,6 +270,52 @@ pub fn find(
   })
 }
 
+/// Finds the first element in the array for which the function returns `Ok(new_value)`,
+/// and then returns `Ok(new_value)`.
+///
+/// If no such element exists (that is, the function returns `Error(_)` for all
+/// elements in the array, or it is empty), returns `Error(Nil)`.
+///
+/// Note that, currently, this will always traverse the whole array.
+///
+/// ## Examples
+///
+/// ```gleam
+/// find_map(
+///   from_list([#(1, False), #(2, False), #(3, True), #(4, True)]), fn(x) {
+///     case x {
+///       #(value, True) -> Ok(value)
+///       #(_, False) -> Error(Nil)
+///     }
+///   })
+/// )
+/// // -> Ok(3)
+///
+/// find_map(from_list([from_list([]), from_list([10]), from_list([12, 13])), first)
+/// // -> Ok(10)
+///
+/// find_map(from_list([from_list([]), from_list([])]), first)
+/// // -> Error(Nil)
+///
+/// find_map(from_list([]), first)
+/// // -> Error(Nil)
+/// ```
+pub fn find_map(
+  in array: Array(a),
+  with operator: fn(a) -> Result(b, c),
+) -> Result(b, Nil) {
+  fold(over: array, from: Error(Nil), with: fn(found, item) {
+    case found {
+      Ok(_) -> found
+      Error(_) ->
+        case operator(item) {
+          Ok(new_value) -> Ok(new_value)
+          Error(_) -> found
+        }
+    }
+  })
+}
+
 /// Reverses the array, returning a new array with its elements in the opposite
 /// order as the given array.
 ///

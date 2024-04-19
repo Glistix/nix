@@ -200,7 +200,30 @@ pub fn array_find_test() {
 
   array.from_list([2, 3, 4, 5])
   |> array.find(one_that: fn(x) { x < 1 })
-  |> should.equal(Error(Nil))
+  |> should.be_error
+}
+
+pub fn array_find_map_test() {
+  array.from_list([#(1, False), #(2, False), #(3, True), #(4, True)])
+  |> array.find_map(fn(x) {
+    case x {
+      #(value, True) -> Ok(value)
+      #(_, False) -> Error(Nil)
+    }
+  })
+  |> should.equal(Ok(3))
+
+  array.from_list([array.from_list([]), array.from_list([1, 2])])
+  |> array.find_map(array.first)
+  |> should.equal(Ok(1))
+
+  array.from_list([array.from_list([]), array.from_list([])])
+  |> array.find_map(array.first)
+  |> should.be_error
+
+  array.from_list([])
+  |> array.find_map(array.first)
+  |> should.be_error
 }
 
 pub fn array_reverse_test() {
