@@ -47,6 +47,14 @@ pub fn array_basic_ops_test() {
   |> should.equal([Ok(1), Error(3), Ok(3), Ok(100), Error(100)])
 }
 
+pub fn array_create_test() {
+  array.new()
+  |> should.equal(array.from_list([]))
+
+  array.single(50)
+  |> should.equal(array.from_list([50]))
+}
+
 pub fn array_access_test() {
   let empty = array.from_list([])
 

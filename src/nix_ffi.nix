@@ -18,6 +18,8 @@ let
       prefix == builtins.substring 0 (builtins.stringLength prefix) string;
 
   # --- arrays ---
+  array_new = {}: [];
+  array_single = element: [ element ];
   array_fold = arr: init: operator: builtins.foldl' operator init arr;
   array_fold_right = arr: init: operator: foldr (elem: acc: operator acc elem) init arr;
   array_get = builtins.elemAt;
@@ -120,6 +122,8 @@ let
 in
   {
     inherit
+      array_new
+      array_single
       array_fold
       array_fold_right
       array_get

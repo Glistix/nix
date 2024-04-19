@@ -9,6 +9,21 @@ import gleam/order.{type Order}
 /// Recursion over this type tends to be slower, as a consequence (would be `O(N^2)`).
 pub type Array(element)
 
+/// Creates a new, empty array.
+@external(nix, "../../nix_ffi.nix", "array_new")
+pub fn new() -> Array(a)
+
+/// Creates an array with one element.
+///
+/// # Examples
+///
+/// ```gleam
+/// single(5)
+/// // -> from_list([5])
+/// ```
+@external(nix, "../../nix_ffi.nix", "array_single")
+pub fn single(item: a) -> Array(a)
+
 /// Reduces a list of elements into a single value by calling a given function
 /// on each element, going from start to end.
 ///
