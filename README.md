@@ -2,25 +2,27 @@
 
 **Mirrors:** **[GitHub](https://github.com/glistix/nix)** | **[Codeberg](https://codeberg.org/glistix/nix)**
 
-A library for interacting with built-in Nix types and functions when using [Glistix](https://github.com/glistix/glistix).
-
 [![Package Version](https://img.shields.io/hexpm/v/nix_lib)](https://hex.pm/packages/glistix_nix)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/glistix_nix/)
 
+A library for interacting with built-in Nix types and functions when using [Glistix](https://github.com/glistix/glistix).
+
+Please note that functions exposed by this library are only suitable for Glistix's Nix target,
+and do not work on Erlang or JavaScript, thus [requiring the Glistix compiler](https://github.com/glistix/glistix).
+
 ## Installation
 
-Run the command below to use `glistix_nix` in your Glistix project. Note that you will have to patch
-`gleam_stdlib` in your project to point to [`glistix/stdlib`](https://github.com/glistix/stdlib).
-See its README for instructions. (This should be done by default when creating a new Glistix
-project.)
+Run the command below to use `glistix_nix` in your Glistix project.
 
 ```sh
 # Add to your Glistix project
 glistix add glistix_nix
 ```
 
-Please note that functions exposed by this library are only suitable for Glistix's Nix target,
-and do not work on Erlang or JavaScript.
+Note that you will have to patch
+`gleam_stdlib` in your project to point to [`glistix/stdlib`](https://github.com/glistix/stdlib).
+See its README for instructions. (This should be done by default when creating a new Glistix
+project.)
 
 ## Example
 
@@ -72,7 +74,7 @@ You can do this by running `git submodule init` to init the
 
 You will then be able to run the command below to the test the library.
 
-```
+```sh
 // Run library tests
 glistix test
 ```
