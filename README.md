@@ -1,5 +1,7 @@
 # glistix_nix
 
+**Mirrors:** **[GitHub](https://github.com/glistix/nix)** | **[Codeberg](https://codeberg.org/glistix/nix)**
+
 A library for interacting with built-in Nix types and functions when using [Glistix](https://github.com/glistix/glistix).
 
 [![Package Version](https://img.shields.io/hexpm/v/nix_lib)](https://hex.pm/packages/glistix_nix)
