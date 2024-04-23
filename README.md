@@ -14,7 +14,7 @@ project.)
 
 ```sh
 # Add to your Glistix project
-gleam add glistix_nix
+glistix add glistix_nix
 ```
 
 Please note that functions exposed by this library are only suitable for Glistix's Nix target,
@@ -62,21 +62,17 @@ Further documentation can be found at <https://hexdocs.pm/glistix_nix>.
 
 ## Development
 
-When developing, make sure to apply to patch `gleam_stdlib` and `gleeunit` locally
-to their Glistix versions so that they work in the Nix target.
+When developing, make sure to apply the Glistix patch for `gleam_stdlib`
+locally so that it may work in the Nix target.
 
 You can do this by running `git submodule init` to init the
-[`glistix/stdlib`](https://github.com/glistix/stdlib) and
-[`glistix/gleeunit`](https://github.com/glistix/gleeunit) submodules,
-followed by replacing the `gleam_stdlib` and `gleeunit` entries in the `gleam.toml`
-with `gleam_stdlib = { path = "./stdlib" }` and `gleeunit = { path = "./gleeunit" }`,
-respectively. It is expected that this workflow will improve in the future.
+[`glistix/stdlib`](https://github.com/glistix/stdlib) submodule upon cloning.
 
 You will then be able to run the command below to the test the library.
 
 ```
 // Run library tests
-gleam test
+glistix test
 ```
 
 ## License
