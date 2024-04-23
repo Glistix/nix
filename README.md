@@ -7,7 +7,7 @@
 
 A library for interacting with built-in Nix types and functions when using [Glistix](https://github.com/glistix/glistix).
 
-Please note that functions exposed by this library are only suitable for Glistix's Nix target,
+**NOTE:** Functions exposed by this library are only suitable for Glistix's Nix target,
 and do not work on Erlang or JavaScript, thus [requiring the Glistix compiler](https://github.com/glistix/glistix).
 
 ## Installation
@@ -75,7 +75,9 @@ You can do this by running `git submodule init` to init the
 You will then be able to run the command below to the test the library.
 
 ```sh
-// Run library tests
+# Optional: enter a shell with Glistix installed
+nix develop
+# Run library tests
 glistix test
 ```
 
