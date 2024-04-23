@@ -2,10 +2,10 @@
 # You typically do not need to edit this file
 
 packages = [
-  { name = "gleam_stdlib", version = "0.36.0", build_tools = ["gleam"], requirements = [], source = "local", path = "../gleam_stdlib" },
-  { name = "gleeunit", version = "1.1.2", build_tools = ["gleam"], requirements = ["gleam_stdlib"], source = "local", path = "../gleeunit" },
+  { name = "gleam_stdlib", version = "0.37.0", build_tools = ["gleam"], requirements = [], source = "local", path = "external/stdlib" },
+  { name = "glistix_gleeunit", version = "1.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "glistix_gleeunit", source = "hex", outer_checksum = "6FE984935DCF11DB7E4F2A6D1F8812334F30EBCC62A0CE718D22BA01F7777137" },
 ]
 
 [requirements]
-gleam_stdlib = { path = "../gleam_stdlib" }
-gleeunit = { path = "../gleeunit" }
+gleam_stdlib = { path = "./external/stdlib" }
+glistix_gleeunit = { version = ">= 1.0.0 and < 2.0.0" }
