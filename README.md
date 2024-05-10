@@ -4,6 +4,7 @@
 
 [![Package Version](https://img.shields.io/hexpm/v/nix_lib)](https://hex.pm/packages/glistix_nix)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/glistix_nix/)
+[![Nix-compatible](https://img.shields.io/badge/target-nix-5277C3)](https://github.com/glistix/glistix)
 
 A library for interacting with built-in Nix types and functions when using [Glistix](https://github.com/glistix/glistix).
 
