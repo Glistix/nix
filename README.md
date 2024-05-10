@@ -2,7 +2,7 @@
 
 **Mirrors:** **[GitHub](https://github.com/glistix/nix)** | **[Codeberg](https://codeberg.org/glistix/nix)**
 
-[![Package Version](https://img.shields.io/hexpm/v/nix_lib)](https://hex.pm/packages/glistix_nix)
+[![Package Version](https://img.shields.io/hexpm/v/glistix_nix)](https://hex.pm/packages/glistix_nix)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/glistix_nix/)
 [![Nix-compatible](https://img.shields.io/badge/target-nix-5277C3)](https://github.com/glistix/glistix)
 
