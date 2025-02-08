@@ -1,3 +1,0 @@
-[submodule "stdlib"]
-	path = external/stdlib
-	url = https://github.com/glistix/stdlib
