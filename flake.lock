@@ -1,5 +1,27 @@
 {
   "nodes": {
+    "fenix": {
+      "inputs": {
+        "nixpkgs": [
+          "glistix",
+          "nixpkgs"
+        ],
+        "rust-analyzer-src": "rust-analyzer-src"
+      },
+      "locked": {
+        "lastModified": 1744231114,
+        "narHash": "sha256-60gLl2rJFt6SRwqWimsTAeHgfsIE1iV0zChdJFOvx8w=",
+        "owner": "nix-community",
+        "repo": "fenix",
+        "rev": "0ccfe532b1433da8e5a23cd513ff6847e0f6a8c2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "fenix",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -52,21 +74,23 @@
     },
     "glistix": {
       "inputs": {
+        "fenix": "fenix",
         "flake-parts": "flake-parts_2",
         "nixpkgs": "nixpkgs",
+        "rust-manifest": "rust-manifest",
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1722217360,
-        "narHash": "sha256-N2FXZNVJzGTLZLVD/c8WYPfnnj8HzUbOMNL5gtWP1w8=",
+        "lastModified": 1742066068,
+        "narHash": "sha256-DYLZU5fh4QU939T7Vh+6Pscu6DUUAMBiUuXsqnA+dGM=",
         "owner": "glistix",
         "repo": "glistix",
-        "rev": "3d4600c4b722d16c530343078a5f27da23ba2b23",
+        "rev": "78ed20c1347e78d081bcd337ef8ef6191902785f",
         "type": "github"
       },
       "original": {
         "owner": "glistix",
-        "ref": "v0.3.0",
+        "ref": "v0.7.0",
         "repo": "glistix",
         "type": "github"
       }
@@ -133,24 +157,36 @@
         "flake-parts": "flake-parts",
         "glistix": "glistix",
         "nixpkgs": "nixpkgs_2",
-        "stdlib": "stdlib",
         "systems": "systems_2"
       }
     },
-    "stdlib": {
+    "rust-analyzer-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1714175019,
-        "narHash": "sha256-mLeC2BmcYAWDH/ClRciAtdPQ1rVaWhNIcrJmA5lbTN0=",
-        "owner": "glistix",
-        "repo": "stdlib",
-        "rev": "23101250f40d1cd9f9f0b107d65cc534fadcfc6a",
+        "lastModified": 1742296961,
+        "narHash": "sha256-gCpvEQOrugHWLimD1wTFOJHagnSEP6VYBDspq96Idu0=",
+        "owner": "rust-lang",
+        "repo": "rust-analyzer",
+        "rev": "15d87419f1a123d8f888d608129c3ce3ff8f13d4",
         "type": "github"
       },
       "original": {
-        "owner": "glistix",
-        "repo": "stdlib",
+        "owner": "rust-lang",
+        "ref": "nightly",
+        "repo": "rust-analyzer",
         "type": "github"
+      }
+    },
+    "rust-manifest": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-Yqu2/i9170R7pQhvOCR1f5SyFr7PcFbO6xcMr9KWruQ=",
+        "type": "file",
+        "url": "https://static.rust-lang.org/dist/channel-rust-1.83.0.toml"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://static.rust-lang.org/dist/channel-rust-1.83.0.toml"
       }
     },
     "systems": {
